@@ -27,8 +27,8 @@ function Login() {
     <AuthWrapper>
       <h1>Sign In</h1>
       <StyledForm onSubmit={handleSubmit}>
-        <input type="text" placeholder="Username" />
-        <input type="text" placeholder="Password" />
+        <input name="username" type="text" placeholder="Username" value={user.username} onChange={handleChange}/>
+        <input name="password" type="text" placeholder="Password" value={user.password} onChange={handleChange}/>
         <button type="submit">Sign In</button>
       </StyledForm>
     </AuthWrapper>
