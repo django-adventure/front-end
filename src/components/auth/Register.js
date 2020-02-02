@@ -27,13 +27,11 @@ function Register() {
     axios
       .post('http://localhost:8000/api/registration/', user)
       .then((res) => {
-        console.log(res);
         setLoading(false);
         window.localStorage.setItem('token', res.data.key);
         history.push('/game');
       })
       .catch((err) => {
-        console.log(Object.getOwnPropertyNames(err.response.data));
         // returns an array of all the fields with an error
         const errors = Object.getOwnPropertyNames(err.response.data);
         // create an object that matches the shape we need to pass to setError
