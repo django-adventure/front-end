@@ -5,9 +5,12 @@ import { useHistory } from 'react-router-dom';
 
 function Login() {
   const [user, setUser] = useState({ username: '', password: '' });
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const [error, setError] = useState({
+    password: null,
+    non_field_errors: null,
+  });
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -19,13 +22,17 @@ function Login() {
     axios
       .post('http://localhost:8000/api/login/', user)
       .then((res) => {
-        console.log(res);
         setLoading(false);
         window.localStorage.setItem('token', res.data.key);
         history.push('/game');
       })
       .catch((err) => {
-        setError(err);
+        // returns an array of all the fields with an error
+        const errors = Object.getOwnPropertyNames(err.response.data);
+        // create an object that matches the shape we need to pass to setError
+        const error = {};
+        errors.forEach((e) => (error[e] = err.response.data[e]));
+        setError(error);
         setLoading(false);
       });
   };
@@ -48,7 +55,13 @@ function Login() {
           value={user.password}
           onChange={handleChange}
         />
+        {error.password &&
+          error.password.map((msg) => <span className="error">{msg}</span>)}
         <button type="submit">Sign In</button>
+        {error.non_field_errors &&
+          error.non_field_errors.map((msg) => (
+            <span className="error">{msg}</span>
+          ))}
       </form>
     </AuthWrapper>
   );
