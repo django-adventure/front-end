@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
-import GlobalStyle from './global-styles';
 import styled from 'styled-components';
+import GlobalStyle from './global-styles';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 
@@ -27,10 +27,11 @@ function App() {
 export default App;
 
 const AppWrapper = styled.div`
-  background-color: #282c34;
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
-  color: white;
+  width: 1000px;
+  max-width: 90%;
+  margin: 0 auto;
 
   a {
     color: #61dafb;

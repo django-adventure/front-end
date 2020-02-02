@@ -17,11 +17,18 @@ const GlobalStyle = createGlobalStyle`
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background-color: #282c34;
+  color: white;
 }
 
-  #root, .App {
+  #root {
     min-height: 100%;
+    ${'' /* display: flex;
+    justify-content: center; */}
+
   }
+
 `;
 
 export default GlobalStyle;
