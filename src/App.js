@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import GlobalStyle from './global-styles';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import PrivateRoute from './components/auth/PrivateRoute';
+import Game from './components/Game';
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         </Header>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <PrivateRoute path="/game" component={Game}/>
       </AppWrapper>
       <GlobalStyle />
     </Fragment>

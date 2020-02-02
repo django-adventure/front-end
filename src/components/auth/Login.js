@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import AuthWrapper from "./auth.styled";
 import styled from "styled-components";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function Login() {
   const [user, setUser] = useState({ username: "", password: "" });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -26,6 +28,8 @@ function Login() {
         console.log(res);
         setLoading(false);
         window.localStorage.setItem("token", res.data.key);
+        history.push('/game');
+
       })
       .catch(err => {
         setError(err);
@@ -46,7 +50,7 @@ function Login() {
         />
         <input
           name="password"
-          type="text"
+          type="password"
           placeholder="Password"
           value={user.password}
           onChange={handleChange}
