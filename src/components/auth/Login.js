@@ -1,37 +1,30 @@
-import React, { useState } from "react";
-import AuthWrapper from "./auth.styled";
-import styled from "styled-components";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import AuthWrapper from './auth.styled';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
-  const [user, setUser] = useState({ username: "", password: "" });
+  const [user, setUser] = useState({ username: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleError = error => {
-    setError(error);
-    setLoading(false);
-  };
-
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("http://localhost:8000/api/login/", user)
-      .then(res => {
+      .post('http://localhost:8000/api/login/', user)
+      .then((res) => {
         console.log(res);
         setLoading(false);
-        window.localStorage.setItem("token", res.data.key);
+        window.localStorage.setItem('token', res.data.key);
         history.push('/game');
-
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err);
         setLoading(false);
       });
@@ -40,7 +33,7 @@ function Login() {
   return (
     <AuthWrapper>
       <h1>Sign In</h1>
-      <StyledForm onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           name="username"
           type="text"
@@ -56,18 +49,9 @@ function Login() {
           onChange={handleChange}
         />
         <button type="submit">Sign In</button>
-      </StyledForm>
+      </form>
     </AuthWrapper>
   );
 }
 
 export default Login;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-
-  input {
-    margin-bottom: 15px;
-  }
-`;

@@ -1,37 +1,34 @@
-import React, { useState } from "react";
-import AuthWrapper from "./auth.styled";
-import styled from "styled-components";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import AuthWrapper from './auth.styled';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 function Register() {
-  const [user, setUser] = useState({ username: "", password1: "", password2: ""});
+  const [user, setUser] = useState({
+    username: '',
+    password1: '',
+    password2: '',
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleError = error => {
-    setError(error);
-    setLoading(false);
-  };
-
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("http://localhost:8000/api/registration/", user)
-      .then(res => {
+      .post('http://localhost:8000/api/registration/', user)
+      .then((res) => {
         console.log(res);
         setLoading(false);
-        window.localStorage.setItem("token", res.data.key);
+        window.localStorage.setItem('token', res.data.key);
         history.push('/game');
-
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err);
         setLoading(false);
       });
@@ -40,7 +37,7 @@ function Register() {
   return (
     <AuthWrapper>
       <h1>Sign Up</h1>
-      <StyledForm onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           name="username"
           type="text"
@@ -55,26 +52,17 @@ function Register() {
           value={user.password1}
           onChange={handleChange}
         />
-         <input
+        <input
           name="password2"
           type="password"
           placeholder="Confirm Password"
           value={user.password2}
           onChange={handleChange}
         />
-        <button type="submit">Sign In</button>
-      </StyledForm>
+        <button type="submit">Sign Up</button>
+      </form>
     </AuthWrapper>
   );
 }
 
 export default Register;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-
-  input {
-    margin-bottom: 15px;
-  }
-`;
