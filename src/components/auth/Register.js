@@ -9,7 +9,11 @@ function Register() {
     password1: '',
     password2: '',
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({
+    username: null,
+    password1: null,
+    non_field_errors: null,
+  });
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -29,7 +33,13 @@ function Register() {
         history.push('/game');
       })
       .catch((err) => {
-        setError(err);
+        console.log(Object.getOwnPropertyNames(err.response.data));
+        // returns an array of all the fields with an error
+        const errors = Object.getOwnPropertyNames(err.response.data);
+        // create an object that matches the shape we need to pass to setError
+        const error = {};
+        errors.forEach((e) => (error[e] = err.response.data[e]));
+        setError(error);
         setLoading(false);
       });
   };
@@ -45,6 +55,8 @@ function Register() {
           value={user.username}
           onChange={handleChange}
         />
+        {error.username &&
+          error.username.map((msg) => <span className="error">{msg}</span>)}
         <input
           name="password1"
           type="password"
@@ -52,6 +64,8 @@ function Register() {
           value={user.password1}
           onChange={handleChange}
         />
+        {error.password1 &&
+          error.password1.map((msg) => <span className="error">{msg}</span>)}
         <input
           name="password2"
           type="password"
@@ -59,7 +73,13 @@ function Register() {
           value={user.password2}
           onChange={handleChange}
         />
+        {error.password2 &&
+          error.password2.map((msg) => <span className="error">{msg}</span>)}
         <button type="submit">Sign Up</button>
+        {error.non_field_errors &&
+          error.non_field_errors.map((msg) => (
+            <span className="error">{msg}</span>
+          ))}
       </form>
     </AuthWrapper>
   );
