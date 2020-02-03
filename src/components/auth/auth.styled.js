@@ -9,7 +9,7 @@ const AuthWrapper = styled.div`
 
   h1 {
     text-align: center;
-    margin: 0 0 20px;
+    margin: 0 0 2rem;
     font-size: 28px;
   }
 
@@ -20,7 +20,7 @@ const AuthWrapper = styled.div`
     input {
       margin-bottom: 1.75rem;
       font-size: 16px;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #ccc;
       outline: none;
       border-radius: 1px;
