@@ -27,12 +27,7 @@ function Login() {
         history.push('/game');
       })
       .catch((err) => {
-        // returns an array of all the fields with an error
-        const errors = Object.getOwnPropertyNames(err.response.data);
-        // create an object that matches the shape we need to pass to setError
-        const error = {};
-        errors.forEach((e) => (error[e] = err.response.data[e]));
-        setError(error);
+        setError(err.response.data);
         setLoading(false);
       });
   };
@@ -47,6 +42,7 @@ function Login() {
           placeholder="Username"
           value={user.username}
           onChange={handleChange}
+          autoComplete="username"
         />
         <input
           name="password"
@@ -54,13 +50,20 @@ function Login() {
           placeholder="Password"
           value={user.password}
           onChange={handleChange}
+          autoComplete="current-password"
         />
         {error.password &&
-          error.password.map((msg) => <span className="error">{msg}</span>)}
+          error.password.map((errorMessage) => (
+            <span key={errorMessage} className="error">
+              {errorMessage}
+            </span>
+          ))}
         <button type="submit">Sign In</button>
         {error.non_field_errors &&
-          error.non_field_errors.map((msg) => (
-            <span className="error">{msg}</span>
+          error.non_field_errors.map((errorMessage) => (
+            <span key={errorMessage} className="error">
+              {errorMessage}
+            </span>
           ))}
       </form>
     </AuthWrapper>
