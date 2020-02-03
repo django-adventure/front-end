@@ -22,7 +22,8 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post('http://localhost:8000/api/login/', user)
+      // .post('http://localhost:8000/api/login/', user)
+      .post('https://django-adventure.herokuapp.com/api/login/', user)
       .then((res) => {
         setLoading(false);
         window.localStorage.setItem('token', res.data.key);

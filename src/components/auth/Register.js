@@ -27,7 +27,8 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     axios
-      .post('http://localhost:8000/api/registration/', user)
+      // .post('http://localhost:8000/api/registration/', user)
+      .post('http://django-adventure.herokuapp.com/api/registration/', user)
       .then((res) => {
         setLoading(false);
         window.localStorage.setItem('token', res.data.key);
