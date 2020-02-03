@@ -11,6 +11,7 @@ function Login() {
   const [error, setError] = useState({
     password: null,
     non_field_errors: null,
+    network: null,
   });
 
   const handleChange = (e) => {
@@ -28,7 +29,9 @@ function Login() {
         history.push('/game');
       })
       .catch((err) => {
-        setError(err.response.data);
+        err.response
+          ? setError(err.response.data)
+          : setError({ network: err.message });
         setLoading(false);
       });
   };
@@ -68,6 +71,7 @@ function Login() {
               {errorMessage}
             </span>
           ))}
+        {error.network && <span className="error">{error.network}</span>}
       </form>
     </AuthWrapper>
   );

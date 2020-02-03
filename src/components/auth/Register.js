@@ -14,6 +14,7 @@ function Register() {
     username: null,
     password1: null,
     non_field_errors: null,
+    network: null,
   });
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -33,7 +34,9 @@ function Register() {
         history.push('/game');
       })
       .catch((err) => {
-        setError(err.response.data);
+        err.response
+          ? setError(err.response.data)
+          : setError({ network: err.message });
         setLoading(false);
       });
   };
@@ -93,6 +96,7 @@ function Register() {
               {errorMessage}
             </span>
           ))}
+        {error.network && <span className="error">{error.network}</span>}
       </form>
     </AuthWrapper>
   );
