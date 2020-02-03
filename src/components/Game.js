@@ -1,23 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
-import styled from 'styled-components';
-
-function RoomInfo({ user, currentRoom }) {
-  return (
-    <div>
-      Username: {user} <br />
-      Room: {currentRoom.title} <br />
-      Description: {currentRoom.description} <br />
-      Players: {currentRoom.players.join(', ')} <br />
-      <RoomError>{currentRoom.error_msg && currentRoom.error_msg}</RoomError>
-    </div>
-  );
-}
-
-const RoomError = styled.div`
-  color: red;
-`;
+import RoomInfo from './RoomInfo';
 
 function Game() {
   const [user, setUser] = useState('');
