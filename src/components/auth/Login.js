@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AuthWrapper from './auth.styled';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 function Login() {
   const [user, setUser] = useState({ username: '', password: '' });
@@ -58,7 +59,9 @@ function Login() {
               {errorMessage}
             </span>
           ))}
-        <button type="submit">Sign In</button>
+        <button type="submit">
+          {loading ? <BeatLoader size={12} /> : 'Sign Up'}
+        </button>
         {error.non_field_errors &&
           error.non_field_errors.map((errorMessage) => (
             <span key={errorMessage} className="error">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AuthWrapper from './auth.styled';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 
 function Register() {
   const [user, setUser] = useState({
@@ -83,7 +84,9 @@ function Register() {
               {errorMessage}
             </span>
           ))}
-        <button type="submit">Sign Up</button>
+        <button type="submit">
+          {loading ? <BeatLoader size={12} /> : 'Sign Up'}
+        </button>
         {error.non_field_errors &&
           error.non_field_errors.map((errorMessage) => (
             <span key={errorMessage} className="error">
