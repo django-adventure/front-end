@@ -1,19 +1,19 @@
-import React, { Fragment } from "react";
-import { Route, Link } from "react-router-dom";
-import styled from "styled-components";
-import GlobalStyle from "./global-styles";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import PrivateRoute from "./components/auth/PrivateRoute";
-import Game from "./components/Game";
-import { useHistory } from "react-router-dom";
+import React, { Fragment } from 'react';
+import { Route, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import GlobalStyle from './global-styles';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import PrivateRoute from './components/auth/PrivateRoute';
+import Game from './components/Game';
+import { useHistory } from 'react-router-dom';
 
 function App() {
   const history = useHistory();
 
   const handleLogout = () => {
-    window.localStorage.removeItem("token");
-    history.push("/");
+    window.localStorage.removeItem('token');
+    history.push('/');
   };
 
   return (
@@ -22,14 +22,13 @@ function App() {
         <Header>
           <StyledLink to="/">Untitled MUD Game</StyledLink>
           <nav>
-            {!window.localStorage.getItem("token") && (
-              <>
+            {window.localStorage.getItem('token') ? (
+              <button onClick={handleLogout}>Logout</button>
+            ) : (
+              <Fragment>
                 <StyledLink to="/login">Login</StyledLink>
                 <StyledLink to="/register">Register</StyledLink>
-              </>
-            )}
-            {window.localStorage.getItem("token") && (
-                <button onClick={handleLogout}>Logout</button>
+              </Fragment>
             )}
           </nav>
         </Header>
