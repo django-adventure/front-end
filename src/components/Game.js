@@ -1,7 +1,24 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
-import RoomInfo from './RoomInfo';
+import styled from 'styled-components';
+import Map from './Map';
+
+function RoomInfo({ user, currentRoom }) {
+  return (
+    <div>
+      Username: {user} <br />
+      Room: {currentRoom.title} <br />
+      Description: {currentRoom.description} <br />
+      Players: {currentRoom.players.join(', ')} <br />
+      <RoomError>{currentRoom.error_msg && currentRoom.error_msg}</RoomError>
+    </div>
+  );
+}
+
+const RoomError = styled.div`
+  color: red;
+`;
 
 function Game() {
   const [user, setUser] = useState('');
@@ -12,6 +29,9 @@ function Game() {
   const sPress = useKeyPress('s');
   const ePress = useKeyPress('e');
   const wPress = useKeyPress('w');
+
+  let xAxis = 0;
+  let yAxis = 0;
 
   useEffect(() => {
     axiosWithAuth()
@@ -27,7 +47,15 @@ function Game() {
       .catch((err) => console.log(err));
   }, []);
 
+  const moveMap = (direction) => {
+    direction === 'n' ? (yAxis += 1) : (yAxis = yAxis);
+    direction === 's' ? (yAxis -= 1) : (yAxis = yAxis);
+    direction === 'e' ? (xAxis += 1) : (xAxis = xAxis);
+    direction === 'w' ? (xAxis -= 1) : (xAxis = xAxis);
+  };
+
   const move = (direction) => {
+    moveMap(direction);
     console.log(direction);
     axiosWithAuth()
       .post('api/adv/move/', { direction })
@@ -46,6 +74,7 @@ function Game() {
   return loading ? null : (
     <Fragment>
       <RoomInfo currentRoom={currentRoom} user={user} />
+      <Map xAxis={xAxis} yAxis={yAxis} />
     </Fragment>
   );
 }
