@@ -34,7 +34,7 @@ function App() {
         </Header>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <PrivateRoute path="/game" component={Game} />
+        <PrivateRoute exact path="/" component={Game} />
       </AppWrapper>
       <GlobalStyle />
     </Fragment>
