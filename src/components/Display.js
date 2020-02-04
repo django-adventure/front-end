@@ -39,9 +39,11 @@ function Display({ parseText, setFocus, output }) {
 export default Display;
 
 const StyledDisplay = styled.div`
+  margin-right: 0;
   margin-bottom: 2rem;
   width: 730px;
   height: 450px;
+  overflow-y: scroll;
   background: #000;
   font-family: monospace;
   padding: 5px;
