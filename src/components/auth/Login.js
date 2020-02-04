@@ -64,7 +64,7 @@ function Login() {
             </span>
           ))}
         <button type="submit">
-          {loading ? <BeatLoader size={12} /> : 'Sign Up'}
+          {loading ? <BeatLoader size={12} /> : 'Sign In'}
         </button>
         {error.non_field_errors &&
           error.non_field_errors.map((errorMessage) => (
