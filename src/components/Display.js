@@ -52,7 +52,7 @@ export default Display;
 const StyledDisplay = styled.div`
   background: transparent;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   background: #000;
   font-family: 'monofont', monospace;
   font-size: 16px;
