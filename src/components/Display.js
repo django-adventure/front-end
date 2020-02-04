@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 function Display({ parseText, setFocus, output }) {
   const [command, setCommand] = useState('');
+
+  useEffect(() => {
+    const terminal = document.querySelector('.terminal');
+    terminal.scrollTop = terminal.scrollHeight;
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -10,10 +15,8 @@ function Display({ parseText, setFocus, output }) {
     setCommand('');
   };
 
-  console.log(output);
-
   return (
-    <StyledDisplay>
+    <StyledDisplay className="terminal">
       <form onSubmit={handleSubmit}>
         <ul>
           {output.map((text, index) => (
@@ -51,7 +54,7 @@ const StyledDisplay = styled.div`
   .prompt {
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 17px;
   }
 
   form {
@@ -59,6 +62,7 @@ const StyledDisplay = styled.div`
 
     ul {
       margin: 0;
+      padding: 0;
     }
 
     li {

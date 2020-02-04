@@ -29,6 +29,7 @@ function Game() {
   }, []);
 
   const parseText = (text) => {
+    setOutput((prev) => [...prev, `>>> ${text}`]);
     let args = text.toLowerCase().split(' ');
     let action = args[0];
 
