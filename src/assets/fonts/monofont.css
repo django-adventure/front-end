@@ -1,0 +1,10 @@
+@font-face {
+  font-family: monofont;
+  font-weight: normal;
+  font-style: normal;
+  src: url('./monofonto.eot');
+  src: url('./monofonto.eot?#iefix') format('embedded-opentype'),
+    url('./monofonto.woff') format('woff'),
+    url('./monofonto.ttf') format('truetype'),
+    url('./monofonto.svg#monofonto') format('svg');
+}
