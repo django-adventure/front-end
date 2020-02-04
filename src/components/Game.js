@@ -2,11 +2,15 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
 import RoomInfo from './RoomInfo';
+import Display from './Display';
 
 function Game() {
   const [user, setUser] = useState('');
+  const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [inputFocused, setInputFocused] = useState();
+  const [output, setOutput] = useState([]);
 
   const nPress = useKeyPress('n');
   const sPress = useKeyPress('s');
@@ -17,15 +21,35 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        console.log(res.data);
-
-        const { name, title, description, players, error_msg } = res.data;
+        console.log(res);
+        const { name, title, description, players, error_msg, uuid } = res.data;
+        setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
+
+  const parseText = (text) => {
+    setOutput((prev) => [...prev, `>>> ${text}`]);
+    let args = text.toLowerCase().split(' ');
+    let action = args[0];
+
+    if (action === 'move' && args.length === 2) {
+      const direction = args[1];
+      const validDirs = ['n', 's', 'e', 'w', 'north', 'south', 'east', 'west'];
+      if (validDirs.includes(direction)) {
+        move(direction[0]);
+      } else {
+        setOutput((prev) => [...prev, 'I do not understand that command']);
+      }
+    } else if (action === 'clear' && args.length === 1) {
+      setOutput([]);
+    } else {
+      setOutput((prev) => [...prev, 'I do not understand that command']);
+    }
+  };
 
   const move = (direction) => {
     console.log(direction);
@@ -34,17 +58,33 @@ function Game() {
       .then((res) => {
         const { title, description, players, error_msg } = res.data;
         setCurrentRoom({ title, description, players, error_msg });
+
+        // add the error message to the display output
+        error_msg.length && setOutput((prev) => [...prev, error_msg]);
+
+        // add the sucess message to the display output
+        const dirs = { n: 'north', s: 'south', e: 'east', w: 'west' };
+        const successMsg = `You walked ${dirs[direction]}`;
+        !error_msg.length && setOutput((prev) => [...prev, successMsg]);
       })
       .catch((err) => console.log(err));
   };
 
-  nPress && move('n');
-  sPress && move('s');
-  ePress && move('e');
-  wPress && move('w');
+  // if key is pressed and text input is not in focus (user not typing)
+  nPress && !inputFocused && move('n');
+  sPress && !inputFocused && move('s');
+  ePress && !inputFocused && move('e');
+  wPress && !inputFocused && move('w');
 
   return loading ? null : (
     <Fragment>
+      <Display
+        setFocus={setInputFocused}
+        parseText={parseText}
+        output={output}
+        setOutput={setOutput}
+        uuid={uuid}
+      />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );
