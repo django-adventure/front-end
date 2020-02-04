@@ -41,6 +41,8 @@ function Game() {
       } else {
         setOutput((prev) => [...prev, 'I do not understand that command']);
       }
+    } else if (action === 'clear' && args.length === 1) {
+      setOutput([]);
     } else {
       setOutput((prev) => [...prev, 'I do not understand that command']);
     }
