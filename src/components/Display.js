@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Pusher from 'pusher-js';
 import styled from 'styled-components';
 
-function Display({ parseText, setFocus, output }) {
+function Display({ parseText, setFocus, output, setOutput, uuid }) {
   const [command, setCommand] = useState('');
   const inputEl = useRef(null);
 
@@ -10,6 +11,24 @@ function Display({ parseText, setFocus, output }) {
     terminal.scrollTop = terminal.scrollHeight;
     inputEl.current.focus();
   });
+
+  useEffect(() => {
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('e8856c38e8fdac4de7c5', {
+      cluster: 'us2',
+      forceTLS: true,
+    });
+
+    const channel = pusher.subscribe(`p-channel-${uuid}`);
+    channel.bind('broadcast', messageEventHandler);
+  }, []);
+
+  const messageEventHandler = (data) => {
+    console.log(data);
+    setOutput((prev) => [...prev, data.message]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

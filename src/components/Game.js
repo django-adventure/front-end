@@ -6,6 +6,7 @@ import Display from './Display';
 
 function Game() {
   const [user, setUser] = useState('');
+  const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [inputFocused, setInputFocused] = useState();
@@ -20,7 +21,9 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        const { name, title, description, players, error_msg } = res.data;
+        console.log(res);
+        const { name, title, description, players, error_msg, uuid } = res.data;
+        setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
@@ -79,6 +82,8 @@ function Game() {
         setFocus={setInputFocused}
         parseText={parseText}
         output={output}
+        setOutput={setOutput}
+        uuid={uuid}
       />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
