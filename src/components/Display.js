@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import './App.css';
 
 function Display({ parseText, setFocus, output }) {
   const [command, setCommand] = useState('');
@@ -60,8 +61,8 @@ const StyledDisplay = styled.div`
   padding: 10px;
 
   background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
-
   /* background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%); */
+
   text-shadow: 0 0 5px #c8c8c8;
   &::after {
     content: '';
