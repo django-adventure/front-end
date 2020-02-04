@@ -8,11 +8,11 @@ import {
   HorizontalGridLines,
 } from 'react-vis';
 
-function Map({ xAxis = 5, yAxis = 5 }) {
+function Map({ xAxis = 6, yAxis = 6 }) {
   const corners = [
-    { x: 10, y: 10 },
-    { x: 0, y: 10 },
-    { x: 10, y: 0 },
+    { x: 12, y: 12 },
+    { x: 0, y: 12 },
+    { x: 12, y: 0 },
     { x: 0, y: 0 },
   ];
   const player = [{ x: `${xAxis}`, y: `${yAxis}` }];
@@ -21,8 +21,8 @@ function Map({ xAxis = 5, yAxis = 5 }) {
     <div className="grid-overlay-2">
       <div className="grid-overlay">
         <XYPlot height={700} width={700} /*stroke="green"*/>
-          <VerticalGridLines style={{ strokeWidth: 5, opacity: '0.1' }} />
-          <HorizontalGridLines style={{ strokeWidth: 5, opacity: '0.1' }} />
+          <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
+          <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
             className="player-dot"
             strokeWidth={15}
@@ -31,7 +31,7 @@ function Map({ xAxis = 5, yAxis = 5 }) {
             color="green"
           />
           <MarkSeries
-            className="mark-series-example"
+            className="corners"
             strokeWidth={0.9}
             opacity="0.0"
             data={corners}

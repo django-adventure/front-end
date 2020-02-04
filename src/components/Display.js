@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import './App.css';
+import image from '../images/scanlines2.png';
 
 function Display({ parseText, setFocus, output }) {
   const [command, setCommand] = useState('');
@@ -54,13 +54,13 @@ const StyledDisplay = styled.div`
   background: transparent;
   height: 100%;
   overflow-y: hidden;
-  background: #000;
+  /* background: #000; */
   font-family: 'monofont', monospace;
   font-size: 16px;
   color: #18ff62;
   padding: 10px;
 
-  background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
+  background-image: url(${image});
   /* background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%); */
 
   text-shadow: 0 0 5px #c8c8c8;
@@ -121,4 +121,5 @@ const DisplayWrapper = styled.div`
   width: 758px;
   height: 450px;
   margin-bottom: 2rem;
+  background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
 `;

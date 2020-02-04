@@ -3,11 +3,15 @@
   background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
   border: 15px solid rgb(86, 99, 84);
   border-radius: 10px;
-  width: 759px;
+  width: 760px;
 }
 
 .grid-overlay {
   background-image: url(../images/scanlines2.png);
-  border-radius: 10px;
   padding-top: 27px;
 }
+
+/* .grid-lines {
+  color: red;
+  width: 50px;
+} */
