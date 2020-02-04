@@ -2,11 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
 import RoomInfo from './RoomInfo';
+import Display from './Display';
 
 function Game() {
   const [user, setUser] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [inputFocused, setInputFocused] = useState();
 
   const nPress = useKeyPress('n');
   const sPress = useKeyPress('s');
@@ -38,14 +40,16 @@ function Game() {
       .catch((err) => console.log(err));
   };
 
-  nPress && move('n');
-  sPress && move('s');
-  ePress && move('e');
-  wPress && move('w');
+  // if key is pressed and text input is not in focus (user not typing)
+  nPress && !inputFocused && move('n');
+  sPress && !inputFocused && move('s');
+  ePress && !inputFocused && move('e');
+  wPress && !inputFocused && move('w');
 
   return loading ? null : (
     <Fragment>
       <RoomInfo currentRoom={currentRoom} user={user} />
+      <Display setFocus={setInputFocused} />
     </Fragment>
   );
 }
