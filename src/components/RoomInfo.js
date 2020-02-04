@@ -13,7 +13,6 @@ function RoomInfo({ user, currentRoom }) {
           ? `${currentRoom.players.join(', ')}`
           : 'None'}
       </p>
-      <p className="error">{currentRoom.error_msg && currentRoom.error_msg}</p>
     </StyledInfo>
   );
 }
@@ -29,9 +28,5 @@ const StyledInfo = styled.div`
 
   p {
     font-size: 16px;
-  }
-
-  .error {
-    color: red;
   }
 `;

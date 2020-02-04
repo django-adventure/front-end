@@ -1,26 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// // Usage
-// function App() {
-//   // Call our hook for each key that we'd like to monitor
-//   const happyPress = useKeyPress('h');
-//   const sadPress = useKeyPress('s');
-//   const robotPress = useKeyPress('r');
-//   const foxPress = useKeyPress('f');
-
-//   return (
-//     <div>
-//       <div>h, s, r, f</div>
-//       <div>
-//         {happyPress && '😊'}
-//         {sadPress && '😢'}
-//         {robotPress && '🤖'}
-//         {foxPress && '🦊'}
-//       </div>
-//     </div>
-//   );
-// }
-
 // Hook
 function useKeyPress(targetKey) {
   // State for keeping track of whether key is pressed
@@ -49,6 +28,7 @@ function useKeyPress(targetKey) {
       window.removeEventListener('keydown', downHandler);
       window.removeEventListener('keyup', upHandler);
     };
+    // eslint-disable-next-line
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return keyPressed;
