@@ -1,4 +1,8 @@
-.player-dot {
-  background-image: url(../images/logo192.png);
-  border: 1px solid red;
+.grid-overlay {
+  background-color: black;
+  background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
+  /* box-shadow: 0px 0px 20px rgba(0, 150, 0, 0.25); */
+  width: 77%;
+  padding-top: 27px;
+  border-radius: 15px;
 }

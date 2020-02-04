@@ -1,6 +1,6 @@
-import React, { Component, useEffect, useKey } from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import '../../node_modules/react-vis/dist/style.css';
+import 'react-vis/dist/style.css';
 import {
   XYPlot,
   LineSeries,
@@ -13,7 +13,6 @@ import {
 
 function Map({ xAxis, yAxis }) {
   const corners = [
-    { x: 0, y: 0 },
     { x: 10, y: 10 },
     { x: 0, y: 10 },
     { x: 10, y: 0 },
@@ -21,25 +20,26 @@ function Map({ xAxis, yAxis }) {
   const player = [{ x: `${xAxis}`, y: `${yAxis}` }];
 
   return (
-    <div className="App">
-      <XYPlot height={700} width={700}>
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
-        <YAxis />
-        {/* <LineSeries data={data} /> */}
+    <div className="grid-overlay">
+      <XYPlot height={700} width={700} /*stroke="green"*/>
+        <VerticalGridLines style={{ strokeWidth: 5, opacity: '0.2' }} />
+        <HorizontalGridLines style={{ strokeWidth: 5, opacity: '0.2' }} />
+        {/* <XAxis />
+        <YAxis /> */}
+        {/* <LineSeries data={corners} /> */}
         <MarkSeries
           className="player-dot"
           strokeWidth={20}
-          opacity="1.0"
-          sizeRange={[5, 15]}
+          opacity="0.8"
+          // sizeRange={[5, 15]}
           data={player}
+          color="green"
         />
         <MarkSeries
           className="mark-series-example"
-          strokeWidth={1}
-          opacity="0.2"
-          sizeRange={[5, 15]}
+          strokeWidth={0.9}
+          opacity="0.1"
+          // sizeRange={[5, 15]}
           data={corners}
         />
       </XYPlot>
