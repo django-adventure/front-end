@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import image from '../images/scanlines2.png';
+import './App.scss';
 
 function Display({ parseText, setFocus, output }) {
   const [command, setCommand] = useState('');
@@ -19,7 +20,7 @@ function Display({ parseText, setFocus, output }) {
   };
 
   return (
-    <DisplayWrapper>
+    <DisplayWrapper className="scanlines">
       <StyledDisplay
         className="terminal"
         onClick={() => inputEl.current.focus()}
@@ -60,7 +61,7 @@ const StyledDisplay = styled.div`
   color: #18ff62;
   padding: 10px;
 
-  background-image: url(${image});
+  /* background-image: url(${image}); */
   /* background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%); */
 
   text-shadow: 0 0 5px #c8c8c8;

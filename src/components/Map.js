@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import 'react-vis/dist/style.css';
 import {
   XYPlot,
@@ -19,7 +19,7 @@ function Map({ xAxis = 6, yAxis = 6 }) {
 
   return (
     <div className="grid-overlay-2">
-      <div className="grid-overlay">
+      <div className="scanlines" id="map">
         <XYPlot height={700} width={700} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
@@ -32,7 +32,7 @@ function Map({ xAxis = 6, yAxis = 6 }) {
           />
           <MarkSeries
             className="corners"
-            strokeWidth={0.9}
+            strokeWidth={0.7}
             opacity="0.0"
             data={corners}
           />
