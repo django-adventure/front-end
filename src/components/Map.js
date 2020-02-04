@@ -8,14 +8,14 @@ import {
   HorizontalGridLines,
 } from 'react-vis';
 
-function Map({ xAxis = 6, yAxis = 6 }) {
+function Map({ x, y }) {
   const corners = [
     { x: 12, y: 12 },
     { x: 0, y: 12 },
     { x: 12, y: 0 },
     { x: 0, y: 0 },
   ];
-  const player = [{ x: `${xAxis}`, y: `${yAxis}` }];
+  const player = [{ x: `${x}`, y: `${y}` }];
 
   return (
     <div className="grid-overlay-2">

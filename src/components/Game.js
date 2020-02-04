@@ -11,6 +11,10 @@ function Game() {
   const [loading, setLoading] = useState(true);
   const [inputFocused, setInputFocused] = useState();
   const [output, setOutput] = useState([]);
+  const [coords, setCoords] = useState({
+    x: undefined,
+    y: undefined,
+  });
 
   const nPress = useKeyPress('n');
   const sPress = useKeyPress('s');
@@ -25,6 +29,7 @@ function Game() {
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
+        setCoords({ x: res.data.x, y: res.data.y });
       })
       .catch((err) => console.log(err));
   }, []);
@@ -56,7 +61,9 @@ function Game() {
       .then((res) => {
         const { title, description, players, error_msg } = res.data;
         setCurrentRoom({ title, description, players, error_msg });
-
+        if (res.data.x && res.data.y) {
+          setCoords({ x: res.data.x, y: res.data.y });
+        }
         // add the error message to the display output
         error_msg.length && setOutput((prev) => [...prev, error_msg]);
 
@@ -81,7 +88,7 @@ function Game() {
         parseText={parseText}
         output={output}
       />
-      <Map />
+      <Map x={coords.x} y={coords.y} />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );
