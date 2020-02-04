@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 function Display({ parseText, setFocus, output }) {
   const [command, setCommand] = useState('');
+  const inputEl = useRef(null);
 
   useEffect(() => {
     const terminal = document.querySelector('.terminal');
     terminal.scrollTop = terminal.scrollHeight;
+    inputEl.current.focus();
   });
 
   const handleSubmit = (e) => {
@@ -16,49 +18,75 @@ function Display({ parseText, setFocus, output }) {
   };
 
   return (
-    <StyledDisplay className="terminal">
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {output.map((text, index) => (
-            <li key={index}>{text}</li>
-          ))}
-        </ul>
-        <div style={{ display: 'flex' }}>
-          <div className="prompt">>>></div>
-          <input
-            type="text"
-            spellCheck="false"
-            value={command}
-            onChange={(e) => setCommand(e.target.value)}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
-          />
-        </div>
-      </form>
-    </StyledDisplay>
+    <DisplayWrapper>
+      <StyledDisplay
+        className="terminal"
+        onClick={() => inputEl.current.focus()}
+      >
+        <form onSubmit={handleSubmit}>
+          <ul>
+            {output.map((text, index) => (
+              <li key={index}>{text}</li>
+            ))}
+          </ul>
+          <div style={{ display: 'flex' }}>
+            <div className="prompt">$ ></div>
+            <input
+              ref={inputEl}
+              type="text"
+              spellCheck="false"
+              value={command}
+              onChange={(e) => setCommand(e.target.value)}
+              onFocus={() => setFocus(true)}
+              onBlur={() => setFocus(false)}
+            />
+          </div>
+        </form>
+      </StyledDisplay>
+    </DisplayWrapper>
   );
 }
 
 export default Display;
 
 const StyledDisplay = styled.div`
-  margin-right: 0;
-  margin-bottom: 2rem;
-  width: 730px;
-  height: 450px;
+  background: transparent;
+  height: 100%;
   overflow-y: scroll;
   background: #000;
-  font-family: monospace;
-  padding: 5px;
+  font-family: 'monofont', monospace;
+  font-size: 16px;
+  color: #18ff62;
+  padding: 10px;
+
+  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
+  text-shadow: 0 0 5px #c8c8c8;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(black, 0.15),
+      rgba(black, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+  }
 
   .prompt {
     display: flex;
     align-items: center;
-    font-size: 17px;
+    font-size: inherit;
   }
 
   form {
     margin: 0;
+    color: inherit;
 
     ul {
       margin: 0;
@@ -67,14 +95,14 @@ const StyledDisplay = styled.div`
 
     li {
       list-style-type: none;
-      font-size: 17px;
     }
 
     input {
-      background: #000;
-      color: white;
+      background: transparent;
+      text-shadow: 0 0 5px #c8c8c8;
+      color: inherit;
       font-family: inherit;
-      font-size: 17px;
+      font-size: inherit;
       outline: none;
       height: 30px;
       border: none;
@@ -82,4 +110,12 @@ const StyledDisplay = styled.div`
       margin-left: 0.5rem;
     }
   }
+`;
+
+const DisplayWrapper = styled.div`
+  border: 15px solid #7b8e78;
+  border-radius: 5px;
+  width: 730px;
+  height: 450px;
+  margin-bottom: 2rem;
 `;
