@@ -2,7 +2,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
 import RoomInfo from './RoomInfo';
-import Map from './Map';
 
 function Game() {
   const [user, setUser] = useState('');
@@ -28,18 +27,7 @@ function Game() {
       .catch((err) => console.log(err));
   }, []);
 
-  let xAxis = 0;
-  let yAxis = 0;
-
-  const moveMap = (direction) => {
-    direction === 'n' ? (yAxis += 1) : (yAxis = yAxis);
-    direction === 's' ? (yAxis -= 1) : (yAxis = yAxis);
-    direction === 'e' ? (xAxis += 1) : (xAxis = xAxis);
-    direction === 'w' ? (xAxis -= 1) : (xAxis = xAxis);
-  };
-
   const move = (direction) => {
-    moveMap(direction);
     console.log(direction);
     axiosWithAuth()
       .post('api/adv/move/', { direction })
@@ -58,7 +46,6 @@ function Game() {
   return loading ? null : (
     <Fragment>
       <RoomInfo currentRoom={currentRoom} user={user} />
-      {/* <Map xAxis={xAxis} yAxis={yAxis} /> */}
     </Fragment>
   );
 }
