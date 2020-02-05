@@ -55,8 +55,6 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
               spellCheck="false"
               value={command}
               onChange={(e) => setCommand(e.target.value)}
-              // onFocus={() => setFocus(true)}
-              // onBlur={() => setFocus(false)}
             />
           </div>
         </form>

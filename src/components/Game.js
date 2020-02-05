@@ -14,17 +14,30 @@ function Game() {
     x: undefined,
     y: undefined,
   });
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        const { name, title, description, players, error_msg, uuid } = res.data;
+        console.log(res);
+        const {
+          name,
+          title,
+          description,
+          players,
+          error_msg,
+          uuid,
+          rooms,
+          x,
+          y,
+        } = res.data;
         setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
-        setCoords({ x: res.data.x, y: res.data.y });
+        setCoords({ x: x, y: y });
+        setRooms(rooms);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -135,8 +148,7 @@ function Game() {
         />
         <LeftPanel currentRoom={currentRoom} user={user} move={move} />
       </div>
-
-      <Map x={coords.x} y={coords.y} />
+      <Map currentX={coords.x} currentY={coords.y} rooms={rooms} />
     </Fragment>
   );
 }

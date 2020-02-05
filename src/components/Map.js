@@ -6,16 +6,25 @@ import {
   MarkSeries,
   VerticalGridLines,
   HorizontalGridLines,
+  LineMarkSeries,
 } from 'react-vis';
+import links from '../data/links.js';
 
-function Map({ x, y }) {
+function Map({ currentX, currentY, rooms }) {
+  // console.log(rooms);
   const corners = [
     { x: 12, y: 12 },
-    { x: 0, y: 12 },
-    { x: 12, y: 0 },
-    { x: 0, y: 0 },
+    { x: -1, y: 12 },
+    { x: 12, y: -1 },
+    { x: -1, y: -1 },
   ];
-  const player = [{ x: `${x}`, y: `${y}` }];
+  const player = [{ x: `${currentX}`, y: `${currentY}` }];
+  const roomsArr = rooms
+    ? rooms.map((room) => ({
+        x: room.x,
+        y: room.y,
+      }))
+    : null;
 
   return (
     <div className="grid-overlay-2">
@@ -24,9 +33,26 @@ function Map({ x, y }) {
           <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
-            className="player-dot"
-            strokeWidth={15}
+            className="rooms"
+            strokeWidth={40}
+            opacity="0.08"
+            data={roomsArr}
+            color="green"
+          />
+          <LineMarkSeries
+            className="path"
+            style={{
+              strokeWidth: '4px',
+            }}
             opacity="0.8"
+            lineStyle={{ stroke: 'green' }}
+            markStyle={{ stroke: 'green' }}
+            data={links}
+          />
+          <MarkSeries
+            className="player-dot"
+            strokeWidth={20}
+            opacity="1"
             data={player}
             color="green"
           />
