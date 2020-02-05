@@ -51,6 +51,7 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
             ]}
           />
           <div className="terminal-input">
+            <br />
             <span>Type 'help for a list of avaliable commands</span>
             <ul>
               {output.map((text, index) => (
