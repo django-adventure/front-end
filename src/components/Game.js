@@ -37,6 +37,16 @@ function Game() {
       .catch((err) => console.log(err));
   }, []);
 
+  const updatePlayers = () => {
+    axiosWithAuth()
+      .get('api/adv/players/')
+      .then((res) => {
+        const { players } = res.data;
+        setCurrentRoom({ ...currentRoom, players });
+      })
+      .catch((err) => console.log(err));
+  };
+
   const parseText = (text) => {
     setOutput((prev) => [...prev, `>>> ${text}`]);
     let args = text.toLowerCase().split(' ');
@@ -105,6 +115,18 @@ function Game() {
       .catch((err) => console.log(err));
   };
 
+  const messageEventHandler = (data) => {
+    // if message is a result of a player leaving or engering a room...
+    // rerun the request to get the current players in the room
+    if (
+      data.message.includes('has walked') ||
+      data.message.includes('has entered')
+    ) {
+      updatePlayers();
+    }
+    setOutput((prev) => [...prev, data.message]);
+  };
+
   // if key is pressed and text input is not in focus (user not typing)
   nPress && !inputFocused && move('n');
   sPress && !inputFocused && move('s');
@@ -124,8 +146,8 @@ function Game() {
           setFocus={setInputFocused}
           parseText={parseText}
           output={output}
-          setOutput={setOutput}
           uuid={uuid}
+          messageEventHandler={messageEventHandler}
         />
         <RoomInfo currentRoom={currentRoom} user={user} />
       </div>

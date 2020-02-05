@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 function RoomInfo({ user, currentRoom }) {
+  useEffect(() => {
+    console.log('asdf');
+  }, []);
+
   return (
     <Wrapper>
       <StyledInfo>

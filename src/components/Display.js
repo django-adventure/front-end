@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
-import image from '../images/scanlines2.png';
 import './App.scss';
 
-function Display({ parseText, setFocus, output, setOutput, uuid }) {
+function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
   const [command, setCommand] = useState('');
   const inputEl = useRef(null);
 
@@ -14,23 +13,20 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
   });
 
   useEffect(() => {
+    // Put the focus into the terminal on start
     inputEl.current.focus();
+
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
-
     const pusher = new Pusher('e8856c38e8fdac4de7c5', {
       cluster: 'us2',
       forceTLS: true,
     });
-
     const channel = pusher.subscribe(`p-channel-${uuid}`);
     channel.bind('broadcast', messageEventHandler);
-  }, []);
 
-  const messageEventHandler = (data) => {
-    console.log(data);
-    setOutput((prev) => [...prev, data.message]);
-  };
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
