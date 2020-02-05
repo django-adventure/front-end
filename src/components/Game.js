@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import useKeyPress from '../hooks/useKeyPress';
 import RoomInfo from './RoomInfo';
 import Display from './Display';
 import Map from './Map';
@@ -10,17 +9,11 @@ function Game() {
   const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [inputFocused, setInputFocused] = useState(true);
   const [output, setOutput] = useState([]);
   const [coords, setCoords] = useState({
     x: undefined,
     y: undefined,
   });
-
-  const nPress = useKeyPress('n');
-  const sPress = useKeyPress('s');
-  const ePress = useKeyPress('e');
-  const wPress = useKeyPress('w');
 
   useEffect(() => {
     axiosWithAuth()
@@ -117,21 +110,15 @@ function Game() {
 
   const messageEventHandler = (data) => {
     // if message is a result of a player leaving or engering a room...
-    // rerun the request to get the current players in the room
     if (
       data.message.includes('has walked') ||
       data.message.includes('has entered')
     ) {
+      // rerun the request to get the current players in the room
       updatePlayers();
     }
     setOutput((prev) => [...prev, data.message]);
   };
-
-  // if key is pressed and text input is not in focus (user not typing)
-  nPress && !inputFocused && move('n');
-  sPress && !inputFocused && move('s');
-  ePress && !inputFocused && move('e');
-  wPress && !inputFocused && move('w');
 
   return loading ? null : (
     <Fragment>
@@ -143,7 +130,6 @@ function Game() {
         }}
       >
         <Display
-          setFocus={setInputFocused}
           parseText={parseText}
           output={output}
           uuid={uuid}

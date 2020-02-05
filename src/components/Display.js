@@ -8,6 +8,7 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
   const inputEl = useRef(null);
 
   useEffect(() => {
+    // scroll to bottom of terminal after each new output
     const terminal = document.querySelector('.terminal');
     terminal.scrollTop = terminal.scrollHeight;
   });
@@ -24,7 +25,6 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
     });
     const channel = pusher.subscribe(`p-channel-${uuid}`);
     channel.bind('broadcast', messageEventHandler);
-
     // eslint-disable-next-line
   }, []);
 
@@ -55,8 +55,8 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
               spellCheck="false"
               value={command}
               onChange={(e) => setCommand(e.target.value)}
-              onFocus={() => setFocus(true)}
-              onBlur={() => setFocus(false)}
+              // onFocus={() => setFocus(true)}
+              // onBlur={() => setFocus(false)}
             />
           </div>
         </form>
@@ -142,5 +142,4 @@ const DisplayWrapper = styled.div`
   border-radius: 10px;
   width: 760px;
   height: 450px;
-  /* margin-bottom: 2rem; */
 `;
