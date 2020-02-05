@@ -35,9 +35,9 @@ function Map({ currentX, currentY, rooms }) {
           <MarkSeries
             className="rooms"
             strokeWidth={40}
-            opacity="0.08"
+            opacity="0.1"
             data={roomsArr}
-            color="green"
+            color="lightGreen"
           />
           <LineMarkSeries
             className="path"
@@ -45,8 +45,8 @@ function Map({ currentX, currentY, rooms }) {
               strokeWidth: '4px',
             }}
             opacity="0.8"
-            lineStyle={{ stroke: 'green' }}
-            markStyle={{ stroke: 'green' }}
+            lineStyle={{ stroke: 'lightGreen' }}
+            markStyle={{ stroke: 'lightGreen' }}
             data={links}
           />
           <MarkSeries
@@ -54,7 +54,7 @@ function Map({ currentX, currentY, rooms }) {
             strokeWidth={20}
             opacity="1"
             data={player}
-            color="green"
+            color="lightGreen"
           />
           <MarkSeries
             className="corners"
