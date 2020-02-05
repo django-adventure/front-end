@@ -54,9 +54,9 @@ const StyledInfo = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border: 15px solid #7b8e78;
+  border: 5px solid #7b8e78;
   border-radius: 10px;
   max-width: 760px;
   width: 400px;
-  /* height: 100%; */
+  margin-left: 1rem;
 `;
