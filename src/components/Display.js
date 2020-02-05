@@ -9,10 +9,10 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
   useEffect(() => {
     const terminal = document.querySelector('.terminal');
     terminal.scrollTop = terminal.scrollHeight;
-    inputEl.current.focus();
   });
 
   useEffect(() => {
+    inputEl.current.focus();
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
