@@ -1,5 +1,5 @@
-import React from 'react';
-import '../styles/scanlines.scss';
+import React, { Component } from 'react';
+import './App.scss';
 import 'react-vis/dist/style.css';
 import {
   XYPlot,

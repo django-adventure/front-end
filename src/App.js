@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import GlobalStyle from './styles/global-styles';
+import GlobalStyle from './global-styles';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import PrivateRoute from './components/auth/PrivateRoute';
