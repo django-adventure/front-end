@@ -3,6 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import useKeyPress from '../hooks/useKeyPress';
 import RoomInfo from './RoomInfo';
 import Display from './Display';
+import Map from './Map';
 
 function Game() {
   const [user, setUser] = useState('');
@@ -11,6 +12,10 @@ function Game() {
   const [loading, setLoading] = useState(true);
   const [inputFocused, setInputFocused] = useState();
   const [output, setOutput] = useState([]);
+  const [coords, setCoords] = useState({
+    x: undefined,
+    y: undefined,
+  });
 
   const nPress = useKeyPress('n');
   const sPress = useKeyPress('s');
@@ -27,6 +32,7 @@ function Game() {
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
+        setCoords({ x: res.data.x, y: res.data.y });
       })
       .catch((err) => console.log(err));
   }, []);
@@ -68,6 +74,10 @@ function Game() {
         const { title, description, players, error_msg } = res.data;
         setCurrentRoom({ title, description, players, error_msg });
 
+        // checks if  x and y coords have been updated
+        if (res.data.x && res.data.y) {
+          setCoords({ x: res.data.x, y: res.data.y });
+        }
         // add the error message to the display output
         error_msg.length && setOutput((prev) => [...prev, error_msg]);
 
@@ -94,6 +104,7 @@ function Game() {
         setOutput={setOutput}
         uuid={uuid}
       />
+      <Map x={coords.x} y={coords.y} />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );

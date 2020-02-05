@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
+import image from '../images/scanlines2.png';
+import './App.scss';
 
 function Display({ parseText, setFocus, output, setOutput, uuid }) {
   const [command, setCommand] = useState('');
@@ -37,7 +39,7 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
   };
 
   return (
-    <DisplayWrapper>
+    <DisplayWrapper className="scanlines">
       <StyledDisplay
         className="terminal"
         onClick={() => inputEl.current.focus()}
@@ -85,7 +87,9 @@ const StyledDisplay = styled.div`
   color: #18ff62;
   padding: 10px;
 
+  /* background-image: url(${image}); */
   background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
+
   text-shadow: 0 0 5px #c8c8c8;
   &::after {
     content: '';
@@ -140,8 +144,9 @@ const StyledDisplay = styled.div`
 
 const DisplayWrapper = styled.div`
   border: 15px solid #7b8e78;
-  border-radius: 5px;
-  width: 730px;
+  border-radius: 10px;
+  width: 758px;
   height: 450px;
   margin-bottom: 2rem;
+  /* background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%); */
 `;
