@@ -144,7 +144,7 @@ const StyledDisplay = styled.div`
 const DisplayWrapper = styled.div`
   border: 15px solid #7b8e78;
   border-radius: 10px;
-  width: 758px;
+  width: 760px;
   height: 450px;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 `;

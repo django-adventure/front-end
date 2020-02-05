@@ -46,7 +46,7 @@ export default App;
 const AppWrapper = styled.div`
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
-  width: 1000px;
+  width: 1200px;
   max-width: 90%;
   margin: 0 auto;
 

@@ -113,15 +113,24 @@ function Game() {
 
   return loading ? null : (
     <Fragment>
-      <Display
-        setFocus={setInputFocused}
-        parseText={parseText}
-        output={output}
-        setOutput={setOutput}
-        uuid={uuid}
-      />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '2rem',
+        }}
+      >
+        <Display
+          setFocus={setInputFocused}
+          parseText={parseText}
+          output={output}
+          setOutput={setOutput}
+          uuid={uuid}
+        />
+        <RoomInfo currentRoom={currentRoom} user={user} />
+      </div>
+
       <Map x={coords.x} y={coords.y} />
-      <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );
 }
