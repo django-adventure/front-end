@@ -34,7 +34,7 @@ function Game() {
       .get('api/adv/players/')
       .then((res) => {
         const { players } = res.data;
-        setCurrentRoom({ ...currentRoom, players });
+        setCurrentRoom((prev) => ({ ...currentRoom, players }));
       })
       .catch((err) => console.log(err));
   };
