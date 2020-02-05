@@ -45,6 +45,7 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
         onClick={() => inputEl.current.focus()}
       >
         <form onSubmit={handleSubmit}>
+          <span>Type 'help for a list of avaliable commands</span>
           <ul>
             {output.map((text, index) => (
               <li key={index}>{text}</li>

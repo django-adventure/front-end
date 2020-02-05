@@ -42,21 +42,42 @@ function Game() {
     let args = text.toLowerCase().split(' ');
     let action = args[0];
 
-    if (action === 'move' && args.length === 2) {
-      const direction = args[1];
-      const validDirs = ['n', 's', 'e', 'w', 'north', 'south', 'east', 'west'];
-      if (validDirs.includes(direction)) {
-        move(direction[0]);
+    if (action === 'move') {
+      if (args.length === 2) {
+        const direction = args[1];
+        const validDirs = [
+          'n',
+          's',
+          'e',
+          'w',
+          'north',
+          'south',
+          'east',
+          'west',
+        ];
+        if (validDirs.includes(direction)) {
+          move(direction[0]);
+        } else {
+          setOutput((prev) => [...prev, 'Usage: move < n | s | e | w >']);
+        }
       } else {
-        setOutput((prev) => [...prev, 'I do not understand that command']);
+        setOutput((prev) => [...prev, 'Usage: move < n | s | e | w >']);
       }
     } else if (action === 'clear' && args.length === 1) {
       setOutput([]);
     } else if (action === 'say') {
       const text = args.slice(1).join(' ');
       say(text);
+    } else if (action === 'help') {
+      const help = [
+        'help -  This output\n',
+        'move - Attempts to move in the direction supplied. Usage: move < n | s | e | w >\n',
+        'say - Broadcasts a message to any players in current room. Usage: say hello, world!',
+        'clear - Clears your screen',
+      ];
+      setOutput((prev) => [...prev, ...help]);
     } else {
-      setOutput((prev) => [...prev, 'I do not understand that command']);
+      setOutput((prev) => [...prev, `No such command '${action}'`]);
     }
   };
 
