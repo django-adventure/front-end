@@ -43,6 +43,7 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
   return (
     <DisplayWrapper className="scanlines">
       <StyledDisplay
+        isVisible={isVisible}
         className="terminal"
         onClick={() => inputEl.current.focus()}
       >
@@ -156,7 +157,7 @@ const StyledDisplay = styled.div`
   }
 
   .terminal-input {
-    visibility: ${isVisible ? 'red' : 'black'};
+    visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
   }
 `;
 
