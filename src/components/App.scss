@@ -113,6 +113,10 @@ $scan-opacity: 0.75;
   padding-top: 27px;
 }
 
+svg:not(:root) {
+  overflow: unset;
+}
+
 // .grid-overlay {
 //   background-image: url(../images/scanlines2.png);
 //   padding-top: 27px;

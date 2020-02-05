@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React from 'react';
 import './App.scss';
 import 'react-vis/dist/style.css';
 import {
@@ -13,9 +13,9 @@ function Map({ x, y, rooms }) {
   // console.log(rooms);
   const corners = [
     { x: 12, y: 12 },
-    { x: 0, y: 12 },
-    { x: 12, y: 0 },
-    { x: 0, y: 0 },
+    { x: -1, y: 12 },
+    { x: 12, y: -1 },
+    { x: -1, y: -1 },
   ];
   const player = [{ x: `${x}`, y: `${y}` }];
   const links = [
@@ -101,10 +101,11 @@ function Map({ x, y, rooms }) {
     { x: 6, y: 2 },
     { x: 5, y: 2 },
     { x: 5, y: 0 },
-    { x: 5, y: 2 },
-    { x: 4, y: 2 },
+    { x: 5, y: 3 },
+    { x: 4, y: 3 },
     { x: 4, y: 0 },
-    { x: 4, y: 2 },
+    { x: 4, y: 3 },
+    { x: 3, y: 3 },
     { x: 3, y: 2 },
     { x: 3, y: 3 },
     { x: 2, y: 3 },
@@ -157,7 +158,7 @@ function Map({ x, y, rooms }) {
     { x: 6, y: 6 },
     { x: 6, y: 10 },
     { x: 5, y: 10 },
-  ];
+  ]; // <-- very long
 
   const roomsArr = rooms
     ? rooms.map((room) => ({
@@ -174,23 +175,25 @@ function Map({ x, y, rooms }) {
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
             className="path"
-            strokeWidth={44}
+            strokeWidth={40}
             opacity="0.1"
             data={roomsArr}
+            color="green"
           />
           <LineMarkSeries
             className="linemark-series-example"
             style={{
-              strokeWidth: '3px',
+              strokeWidth: '4px',
             }}
-            lineStyle={{ stroke: 'red' }}
-            markStyle={{ stroke: 'blue' }}
+            opacity="0.8"
+            lineStyle={{ stroke: 'green' }}
+            markStyle={{ stroke: 'green' }}
             data={links}
           />
           <MarkSeries
             className="player-dot"
-            strokeWidth={15}
-            opacity="0.8"
+            strokeWidth={20}
+            opacity="1"
             data={player}
             color="green"
           />
