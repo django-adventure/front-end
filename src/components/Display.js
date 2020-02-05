@@ -1,17 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Pusher from 'pusher-js';
 import styled from 'styled-components';
 import image from '../images/scanlines2.png';
 import './App.scss';
 
-function Display({ parseText, setFocus, output }) {
+function Display({ parseText, setFocus, output, setOutput, uuid }) {
   const [command, setCommand] = useState('');
   const inputEl = useRef(null);
 
   useEffect(() => {
     const terminal = document.querySelector('.terminal');
     terminal.scrollTop = terminal.scrollHeight;
-    inputEl.current.focus();
   });
+
+  useEffect(() => {
+    inputEl.current.focus();
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('e8856c38e8fdac4de7c5', {
+      cluster: 'us2',
+      forceTLS: true,
+    });
+
+    const channel = pusher.subscribe(`p-channel-${uuid}`);
+    channel.bind('broadcast', messageEventHandler);
+  }, []);
+
+  const messageEventHandler = (data) => {
+    console.log(data);
+    setOutput((prev) => [...prev, data.message]);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,15 +73,22 @@ export default Display;
 const StyledDisplay = styled.div`
   background: transparent;
   height: 100%;
-  overflow-y: hidden;
-  /* background: #000; */
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  background: #000;
   font-family: 'monofont', monospace;
   font-size: 16px;
   color: #18ff62;
   padding: 10px;
 
   /* background-image: url(${image}); */
-  /* background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%); */
+  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
 
   text-shadow: 0 0 5px #c8c8c8;
   &::after {
@@ -122,5 +148,5 @@ const DisplayWrapper = styled.div`
   width: 758px;
   height: 450px;
   margin-bottom: 2rem;
-  background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
+  /* background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%); */
 `;

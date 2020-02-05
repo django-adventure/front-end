@@ -7,6 +7,7 @@ import Map from './Map';
 
 function Game() {
   const [user, setUser] = useState('');
+  const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [inputFocused, setInputFocused] = useState();
@@ -25,7 +26,9 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        const { name, title, description, players, error_msg } = res.data;
+        console.log(res);
+        const { name, title, description, players, error_msg, uuid } = res.data;
+        setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
@@ -49,9 +52,18 @@ function Game() {
       }
     } else if (action === 'clear' && args.length === 1) {
       setOutput([]);
+    } else if (action === 'say') {
+      const text = args.slice(1).join(' ');
+      say(text);
     } else {
       setOutput((prev) => [...prev, 'I do not understand that command']);
     }
+  };
+
+  const say = (text) => {
+    axiosWithAuth()
+      .post('api/adv/say/', { message: text })
+      .catch((err) => console.log(err));
   };
 
   const move = (direction) => {
@@ -89,6 +101,8 @@ function Game() {
         setFocus={setInputFocused}
         parseText={parseText}
         output={output}
+        setOutput={setOutput}
+        uuid={uuid}
       />
       <Map x={coords.x} y={coords.y} />
       <RoomInfo currentRoom={currentRoom} user={user} />
