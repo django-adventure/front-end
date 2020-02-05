@@ -46,9 +46,18 @@ function Game() {
       }
     } else if (action === 'clear' && args.length === 1) {
       setOutput([]);
+    } else if (action === 'say') {
+      const text = args.slice(1).join(' ');
+      say(text);
     } else {
       setOutput((prev) => [...prev, 'I do not understand that command']);
     }
+  };
+
+  const say = (text) => {
+    axiosWithAuth()
+      .post('api/adv/say/', { message: text })
+      .catch((err) => console.log(err));
   };
 
   const move = (direction) => {
