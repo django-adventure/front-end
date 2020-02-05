@@ -19,7 +19,6 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        console.log(res);
         const { name, title, description, players, error_msg, uuid } = res.data;
         setUuid(uuid);
         setUser(name);
