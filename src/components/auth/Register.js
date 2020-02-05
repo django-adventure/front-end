@@ -32,7 +32,7 @@ function Register() {
       .then((res) => {
         setLoading(false);
         window.localStorage.setItem('token', res.data.key);
-        history.push('/game');
+        history.push('/');
       })
       .catch((err) => {
         err.response
