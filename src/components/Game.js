@@ -36,12 +36,14 @@ function Game() {
           error_msg,
           uuid,
           rooms,
+          x,
+          y,
         } = res.data;
         setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
-        setCoords({ x: res.data.x, y: res.data.y });
+        setCoords({ x: x, y: y });
         setRooms(rooms);
       })
       .catch((err) => console.log(err));
@@ -114,7 +116,7 @@ function Game() {
         setOutput={setOutput}
         uuid={uuid}
       />
-      <Map x={coords.x} y={coords.y} rooms={rooms} />
+      <Map currentX={coords.x} currentY={coords.y} rooms={rooms} />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );

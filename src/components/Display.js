@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
-import image from '../images/scanlines2.png';
 import './App.scss';
 
 function Display({ parseText, setFocus, output, setOutput, uuid }) {

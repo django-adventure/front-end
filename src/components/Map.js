@@ -9,7 +9,7 @@ import {
   LineMarkSeries,
 } from 'react-vis';
 
-function Map({ x, y, rooms }) {
+function Map({ currentX, currentY, rooms }) {
   // console.log(rooms);
   const corners = [
     { x: 12, y: 12 },
@@ -17,7 +17,7 @@ function Map({ x, y, rooms }) {
     { x: 12, y: -1 },
     { x: -1, y: -1 },
   ];
-  const player = [{ x: `${x}`, y: `${y}` }];
+  const player = [{ x: `${currentX}`, y: `${currentY}` }];
   const links = [
     { x: 6, y: 6 },
     { x: 6, y: 9 },
@@ -174,14 +174,14 @@ function Map({ x, y, rooms }) {
           <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
-            className="path"
+            className="rooms"
             strokeWidth={40}
             opacity="0.1"
             data={roomsArr}
             color="green"
           />
           <LineMarkSeries
-            className="linemark-series-example"
+            className="path"
             style={{
               strokeWidth: '4px',
             }}
