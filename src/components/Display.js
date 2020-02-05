@@ -87,7 +87,6 @@ const StyledDisplay = styled.div`
   color: #18ff62;
   padding: 10px;
 
-  /* background-image: url(${image}); */
   background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
 
   text-shadow: 0 0 5px #c8c8c8;
@@ -148,5 +147,4 @@ const DisplayWrapper = styled.div`
   width: 758px;
   height: 450px;
   margin-bottom: 2rem;
-  /* background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%); */
 `;

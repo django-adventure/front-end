@@ -16,6 +16,7 @@ function Game() {
     x: undefined,
     y: undefined,
   });
+  const [rooms, setRooms] = useState([]);
 
   const nPress = useKeyPress('n');
   const sPress = useKeyPress('s');
@@ -27,12 +28,21 @@ function Game() {
       .get('api/adv/init/')
       .then((res) => {
         console.log(res);
-        const { name, title, description, players, error_msg, uuid } = res.data;
+        const {
+          name,
+          title,
+          description,
+          players,
+          error_msg,
+          uuid,
+          rooms,
+        } = res.data;
         setUuid(uuid);
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
         setCoords({ x: res.data.x, y: res.data.y });
+        setRooms(rooms);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -104,7 +114,7 @@ function Game() {
         setOutput={setOutput}
         uuid={uuid}
       />
-      <Map x={coords.x} y={coords.y} />
+      <Map x={coords.x} y={coords.y} rooms={rooms} />
       <RoomInfo currentRoom={currentRoom} user={user} />
     </Fragment>
   );
