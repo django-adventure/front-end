@@ -35,7 +35,7 @@ function Map({ currentX, currentY, rooms }) {
           <MarkSeries
             className="rooms"
             strokeWidth={40}
-            opacity="0.1"
+            opacity="0.08"
             data={roomsArr}
             color="green"
           />
