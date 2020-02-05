@@ -138,8 +138,7 @@ const StyledDisplay = styled.div`
     }
 
     .typed-cursor {
-      overflow-wrap: break-word;
-      color: red;
+      color: lightgreen;
     }
 
     input {
