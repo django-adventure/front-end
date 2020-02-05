@@ -85,7 +85,6 @@ function Game() {
   };
 
   const move = (direction) => {
-    console.log(direction);
     axiosWithAuth()
       .post('api/adv/move/', { direction })
       .then((res) => {
