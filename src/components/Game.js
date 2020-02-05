@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import RoomInfo from './RoomInfo';
 import Display from './Display';
 import Map from './Map';
+import LeftPanel from './LeftPanel';
 
 function Game() {
   const [user, setUser] = useState('');
@@ -133,7 +133,7 @@ function Game() {
           uuid={uuid}
           messageEventHandler={messageEventHandler}
         />
-        <RoomInfo currentRoom={currentRoom} user={user} />
+        <LeftPanel currentRoom={currentRoom} user={user} move={move} />
       </div>
 
       <Map x={coords.x} y={coords.y} />
