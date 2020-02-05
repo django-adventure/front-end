@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import 'react-vis/dist/style.css';
 import {
@@ -7,11 +7,13 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
+  LabelSeries,
 } from 'react-vis';
 import links from '../data/links.js';
 
 function Map({ currentX, currentY, rooms }) {
   // console.log(rooms);
+  const [hoverRoom, setHoverRoom] = useState();
   const corners = [
     { x: 12, y: 12 },
     { x: -1, y: 12 },
@@ -29,12 +31,12 @@ function Map({ currentX, currentY, rooms }) {
   return (
     <div className="grid-overlay-2">
       <div className="scanlines" id="map">
-        <XYPlot height={700} width={700} /*stroke="green"*/>
+        <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
             className="rooms"
-            strokeWidth={40}
+            strokeWidth={32}
             opacity="0.1"
             data={roomsArr}
             color="lightGreen"
@@ -47,6 +49,23 @@ function Map({ currentX, currentY, rooms }) {
             opacity="0.8"
             lineStyle={{ stroke: 'lightGreen' }}
             markStyle={{ stroke: 'lightGreen' }}
+            onValueMouseOver={(datapoint, event) => {
+              // does something on click
+              // you can access the value of the event
+              console.log(datapoint);
+              const hover = rooms.filter((room) => {
+                return room.x === datapoint.x && room.y === datapoint.y;
+              });
+              if (hover !== null || undefined) {
+                const title = hover.map((element) => {
+                  return element.title;
+                });
+                setHoverRoom([
+                  { x: datapoint.x, y: datapoint.y, label: title[0] },
+                ]);
+              }
+              console.log(hoverRoom);
+            }}
             data={links}
           />
           <MarkSeries
@@ -55,6 +74,11 @@ function Map({ currentX, currentY, rooms }) {
             opacity="1"
             data={player}
             color="lightGreen"
+          />
+          <LabelSeries
+            animation
+            allowOffsetToBeReversed
+            data={hoverRoom ? hoverRoom : undefined}
           />
           <MarkSeries
             className="corners"
