@@ -10,7 +10,7 @@ function Game() {
   const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [inputFocused, setInputFocused] = useState();
+  const [inputFocused, setInputFocused] = useState(true);
   const [output, setOutput] = useState([]);
   const [coords, setCoords] = useState({
     x: undefined,
