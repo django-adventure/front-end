@@ -4,13 +4,21 @@ import styled from 'styled-components';
 const Navigation = ({ move }) => {
   return (
     <StyledNav>
-      <button className="dpad up">ᐃ</button>
+      <button className="dpad up" onClick={() => move('n')}>
+        ᐃ
+      </button>
       <div>
-        <button className="dpad left">ᐊ</button>
+        <button className="dpad left" onClick={() => move('w')}>
+          ᐊ
+        </button>
         <div className="center"></div>
-        <button className="dpad right">ᐅ</button>
+        <button className="dpad right" onClick={() => move('e')}>
+          ᐅ
+        </button>
       </div>
-      <button className="dpad down">ᐁ</button>
+      <button className="dpad down" onClick={() => move('s')}>
+        ᐁ
+      </button>
     </StyledNav>
   );
 };
