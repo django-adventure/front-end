@@ -61,6 +61,8 @@ function Game() {
       .then((res) => {
         const { title, description, players, error_msg } = res.data;
         setCurrentRoom({ title, description, players, error_msg });
+
+        // checks if  x and y coords have been updated
         if (res.data.x && res.data.y) {
           setCoords({ x: res.data.x, y: res.data.y });
         }
