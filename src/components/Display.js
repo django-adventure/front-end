@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import TypedComponent from './Typed';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
 import image from '../images/scanlines2.png';
@@ -6,6 +7,7 @@ import './App.scss';
 
 function Display({ parseText, setFocus, output, setOutput, uuid }) {
   const [command, setCommand] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -45,23 +47,31 @@ function Display({ parseText, setFocus, output, setOutput, uuid }) {
         onClick={() => inputEl.current.focus()}
       >
         <form onSubmit={handleSubmit}>
-          <span>Type 'help for a list of avaliable commands</span>
-          <ul>
-            {output.map((text, index) => (
-              <li key={index}>{text}</li>
-            ))}
-          </ul>
-          <div style={{ display: 'flex' }}>
-            <div className="prompt">$ ></div>
-            <input
-              ref={inputEl}
-              type="text"
-              spellCheck="false"
-              value={command}
-              onChange={(e) => setCommand(e.target.value)}
-              onFocus={() => setFocus(true)}
-              onBlur={() => setFocus(false)}
-            />
+          <TypedComponent
+            setIsVisible={setIsVisible}
+            strings={[
+              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentiu voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.',
+            ]}
+          />
+          <div className="terminal-input">
+            <span>Type 'help for a list of avaliable commands</span>
+            <ul>
+              {output.map((text, index) => (
+                <li key={index}>{text}</li>
+              ))}
+            </ul>
+            <div style={{ display: 'flex' }}>
+              <div className="prompt">$ ></div>
+              <input
+                ref={inputEl}
+                type="text"
+                spellCheck="false"
+                value={command}
+                onChange={(e) => setCommand(e.target.value)}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
+              />
+            </div>
           </div>
         </form>
       </StyledDisplay>
@@ -126,6 +136,11 @@ const StyledDisplay = styled.div`
       list-style-type: none;
     }
 
+    .typed-cursor {
+      overflow-wrap: break-word;
+      color: red;
+    }
+
     input {
       background: transparent;
       text-shadow: 0 0 5px #c8c8c8;
@@ -138,6 +153,10 @@ const StyledDisplay = styled.div`
       flex: 1;
       margin-left: 0.5rem;
     }
+  }
+
+  .terminal-input {
+    visibility: ${isVisible ? 'red' : 'black'};
   }
 `;
 
