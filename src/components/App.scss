@@ -105,14 +105,14 @@ $scan-opacity: 0.75;
   background-color: black;
   background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
   border: 15px solid rgb(86, 99, 84);
-  border-radius: 10px;
+  //   border-radius: 10px;
   width: 760px;
 }
 #map {
   padding-top: 27px;
 }
 
-.grid-overlay {
-  background-image: url(../images/scanlines2.png);
-  padding-top: 27px;
-}
+// .grid-overlay {
+//   background-image: url(../images/scanlines2.png);
+//   padding-top: 27px;
+// }
