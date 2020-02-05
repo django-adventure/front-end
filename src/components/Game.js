@@ -40,44 +40,39 @@ function Game() {
   const parseText = (text) => {
     setOutput((prev) => [...prev, `>>> ${text}`]);
     let args = text.toLowerCase().split(' ');
-    let action = args[0];
+    let cmd = args[0];
 
-    if (action === 'move') {
+    const moveUsage = 'Usage: move < n | s | e | w >';
+    const help = [
+      'help -  This output',
+      `move - Attempts to move in the direction supplied. \
+              Usage: move < n | s | e | w >`,
+      `say - Broadcasts a message to any players in current room. \
+             Usage: say hello, world!`,
+      'clear - Clears your screen',
+    ];
+
+    if (cmd === 'move') {
       if (args.length === 2) {
         const direction = args[1];
-        const validDirs = [
-          'n',
-          's',
-          'e',
-          'w',
-          'north',
-          'south',
-          'east',
-          'west',
-        ];
-        if (validDirs.includes(direction)) {
+        const valid = ['n', 's', 'e', 'w', 'north', 'south', 'east', 'west'];
+        if (valid.includes(direction)) {
           move(direction[0]);
         } else {
-          setOutput((prev) => [...prev, 'Usage: move < n | s | e | w >']);
+          setOutput((prev) => [...prev, moveUsage]);
         }
       } else {
-        setOutput((prev) => [...prev, 'Usage: move < n | s | e | w >']);
+        setOutput((prev) => [...prev, moveUsage]);
       }
-    } else if (action === 'clear' && args.length === 1) {
+    } else if (cmd === 'clear') {
       setOutput([]);
-    } else if (action === 'say') {
+    } else if (cmd === 'say') {
       const text = args.slice(1).join(' ');
       say(text);
-    } else if (action === 'help') {
-      const help = [
-        'help -  This output\n',
-        'move - Attempts to move in the direction supplied. Usage: move < n | s | e | w >\n',
-        'say - Broadcasts a message to any players in current room. Usage: say hello, world!',
-        'clear - Clears your screen',
-      ];
+    } else if (cmd === 'help') {
       setOutput((prev) => [...prev, ...help]);
     } else {
-      setOutput((prev) => [...prev, `No such command '${action}'`]);
+      setOutput((prev) => [...prev, `No such command '${cmd}'`]);
     }
   };
 
