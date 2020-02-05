@@ -58,5 +58,5 @@ const Wrapper = styled.div`
   border-radius: 10px;
   max-width: 760px;
   width: 400px;
-  margin-left: 1rem;
+  height: 250px;
 `;
