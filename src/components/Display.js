@@ -50,7 +50,7 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
             strings={[
               'Welcome to The Wasteland.',
               'Here you can traverse and interact with other players in different zones.',
-              'If you look hard enough, you might just find an irradiated chicken or two.',
+              'If you look around you might find something interesting.',
               'Have fun exploring!',
             ]}
           />
