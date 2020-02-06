@@ -10,6 +10,8 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
+  // XAxis,
+  // YAxis,
 } from 'react-vis';
 
 function Map({ currentX, currentY, rooms, currentRoom }) {
@@ -34,7 +36,7 @@ function Map({ currentX, currentY, rooms, currentRoom }) {
   //   : null;
 
   return (
-    <div className="grid-overlay-2">
+    <div className="grid-overlay">
       {!!hoverRoom && <div className="room room--hover">{hoverRoom}</div>}
       <div className="room room--current">{currentRoom.title}</div>
       <Clock />
@@ -43,9 +45,14 @@ function Map({ currentX, currentY, rooms, currentRoom }) {
           <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
 
+          {/* uncomment next 3 lines to help with drawing new map nodes */}
+          {/* console.log(currentX, currentY) */}
+          {/* <XAxis />
+          <YAxis /> */}
+
           {/* <MarkSeries
             className="rooms"
-            strokeWidth={32}
+            strokeWidth={22}
             opacity="0.1"
             data={roomsArr}
             color="lightGreen"

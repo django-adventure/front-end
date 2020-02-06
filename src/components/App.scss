@@ -101,7 +101,7 @@ $scan-opacity: 0.75;
 
 // ---------------------------------------------------------------------------------------------------
 
-.grid-overlay-2 {
+.grid-overlay {
   background-image: radial-gradient(rgba(0, 150, 0, 0.65), black 120%);
   border: 15px solid rgb(86, 99, 84);
   border-radius: 10px;
@@ -114,7 +114,7 @@ $scan-opacity: 0.75;
   padding-right: 27px;
 }
 
-.room  {
+.room {
   position: absolute;
   font-family: 'VT323', monospace;
   color: #18ff62;
@@ -132,7 +132,3 @@ $scan-opacity: 0.75;
     // right: 100px;
   }
 }
-
-
-
-

@@ -48,7 +48,10 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
           <TypedComponent
             setIsVisible={setIsVisible}
             strings={[
-              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentiu voluptatum deleniti atque corrupti quos dolores et quas.',
+              'Welcome to The Wasteland.',
+              'Here you can traverse and interact with other players in different zones.',
+              'If you look hard enough, you might just find an irradiated chicken or two.',
+              'Have fun exploring!',
             ]}
           />
           <div className="terminal-input">
