@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import './App.scss';
 import 'react-vis/dist/style.css';
+import links from '../data/links.js';
 import {
   XYPlot,
   MarkSeries,
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
-  LabelSeries,
 } from 'react-vis';
-import links from '../data/links.js';
 
 function Map({ currentX, currentY, rooms }) {
-  // console.log(rooms);
-  const [hoverRoom, setHoverRoom] = useState();
+  const [hoverRoom, setHoverRoom] = useState('');
   const corners = [
     { x: 12, y: 12 },
     { x: -1, y: 12 },
     { x: 12, y: -1 },
     { x: -1, y: -1 },
   ];
-  const player = [{ x: `${currentX}`, y: `${currentY}` }];
+
+  const player =
+    currentX !== undefined && currentY !== undefined
+      ? [{ x: currentX, y: currentY }]
+      : null;
+
   const roomsArr = rooms
     ? rooms.map((room) => ({
         x: room.x,
@@ -30,6 +33,20 @@ function Map({ currentX, currentY, rooms }) {
 
   return (
     <div className="grid-overlay-2">
+      {hoverRoom.length > 0 && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 10,
+            left: 10,
+            height: 40,
+            fontFamily: 'monofont',
+            color: '#18ff62',
+          }}
+        >
+          {hoverRoom}
+        </div>
+      )}
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
@@ -50,47 +67,17 @@ function Map({ currentX, currentY, rooms }) {
           />
           <LineMarkSeries
             className="path"
-            // opacity="0.8"
             lineStyle={{ stroke: 'lightGreen', strokeWidth: '3px' }}
             markStyle={{ stroke: 'lightGreen', strokeWidth: '12px' }}
-            // onSeriesMouseOut={(event) => {
-            //   // does something on mouse over
-            //   // you can access the value of the event
-            //   setHoverRoom([
-            //     {
-            //       label: null,
-            //     },
-            //   ]);
-            // }}
+            onSeriesMouseOut={(event) => setHoverRoom('')}
             onValueMouseOver={(datapoint, event) => {
-              console.log(datapoint);
-              const hover = rooms.filter((room) => {
+              const hover = rooms.find((room) => {
                 return room.x === datapoint.x && room.y === datapoint.y;
               });
-              if (hover !== null || undefined) {
-                const title = hover.map((element) => {
-                  return element.title;
-                });
-                setHoverRoom([
-                  {
-                    x: datapoint.x,
-                    y: datapoint.y,
-                    label: title[0],
-                    rotation: 15,
-                    style: {
-                      color: 'orange',
-                      stroke: 'black',
-                      // strokeWidth:
-                      fontSize: 50,
-                    },
-                  },
-                ]);
-              }
-              console.log(hoverRoom);
+              setHoverRoom(hover.title);
             }}
             data={links}
           />
-          <LabelSeries animation allowOffsetToBeReversed data={hoverRoom} />
           <MarkSeries
             className="corners"
             strokeWidth={0.7}

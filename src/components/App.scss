@@ -106,11 +106,9 @@ $scan-opacity: 0.75;
   border: 15px solid rgb(86, 99, 84);
   border-radius: 10px;
   width: 660px;
+  position: relative;
 }
 
 #map {
   padding-top: 27px;
-}
-.rv-xy-plot__series.rv-xy-plot__series--label {
-  background-color: red;
 }
