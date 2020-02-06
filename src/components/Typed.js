@@ -32,7 +32,7 @@ class TypedComponent extends React.Component {
       <div style={style} className="wrap" onClick={() => this.typed.start()}>
         <div className="type-wrap">
           <span
-            style={{ whiteSpace: 'pre-wrap', fontSize: 25 }}
+            style={{ whiteSpace: 'pre-wrap' }}
             ref={(el) => {
               this.el = el;
             }}

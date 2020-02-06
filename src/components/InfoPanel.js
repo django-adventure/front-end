@@ -14,9 +14,11 @@ const LeftPanel = ({ currentRoom, user, move }) => {
 
 const StyledDiv = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 50px;
+  /* margin-left: 50px; */
+  width: 90%;
 `;
 
 export default LeftPanel;

@@ -24,11 +24,11 @@ export default RoomInfo;
 const StyledInfo = styled.div`
   height: 100%;
   background: #000;
-  font-family: 'monofont', monospace;
-  font-size: 16px;
-  color: #18ff62;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #ff9210;
   padding: 10px;
-  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
+  background-image: radial-gradient(rgba(105, 86, 9, 0.75), black 170%);
   text-shadow: 0 0 5px #c8c8c8;
 
   &::after {
@@ -49,7 +49,7 @@ const StyledInfo = styled.div`
   }
 
   p {
-    font-size: 16px;
+    font-size: 22px;
   }
 `;
 
@@ -58,5 +58,6 @@ const Wrapper = styled.div`
   border-radius: 10px;
   max-width: 760px;
   width: 400px;
-  height: 250px;
+  height: 270px;
+  margin-right: 80px;
 `;

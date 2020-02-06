@@ -25,7 +25,7 @@ const Navigation = ({ move }) => {
 
 const StyledNav = styled.div`
   height: 180px;
-  width: 180px;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,6 +33,7 @@ const StyledNav = styled.div`
   padding: 10px;
   background-color: #7b8e78;
   border-radius: 50%;
+  /* margin: 30px 0; */
 
   div {
     align-self: stretch;
