@@ -33,20 +33,7 @@ function Map({ currentX, currentY, rooms }) {
 
   return (
     <div className="grid-overlay-2">
-      {hoverRoom.length > 0 && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 10,
-            left: 10,
-            height: 40,
-            fontFamily: 'monofont',
-            color: '#18ff62',
-          }}
-        >
-          {hoverRoom}
-        </div>
-      )}
+      {!!hoverRoom && <div className="room-title">{hoverRoom}</div>}
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
@@ -69,8 +56,8 @@ function Map({ currentX, currentY, rooms }) {
             className="path"
             lineStyle={{ stroke: 'lightGreen', strokeWidth: '3px' }}
             markStyle={{ stroke: 'lightGreen', strokeWidth: '12px' }}
-            onSeriesMouseOut={(event) => setHoverRoom('')}
-            onValueMouseOver={(datapoint, event) => {
+            onSeriesMouseOut={() => setHoverRoom('')}
+            onValueMouseOver={(datapoint) => {
               const hover = rooms.find((room) => {
                 return room.x === datapoint.x && room.y === datapoint.y;
               });

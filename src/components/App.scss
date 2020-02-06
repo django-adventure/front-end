@@ -112,3 +112,11 @@ $scan-opacity: 0.75;
 #map {
   padding-top: 27px;
 }
+
+.room-title {
+  position: absolute;
+  bottom: 10px;
+  left: 12;
+  font-family: monofont;
+  color: #18ff62;
+}
