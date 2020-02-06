@@ -6,7 +6,7 @@ function RoomInfo({ user, currentRoom }) {
     <Wrapper className="scanlines">
       <StyledInfo>
         Username: {user} <br />
-        Room: {currentRoom.title} <br />
+        {/* Room: {currentRoom.title} <br /> */}
         <p>{currentRoom.description}</p>
         <p>
           Players in room:{' '}
