@@ -46,8 +46,8 @@ function Map({ currentX, currentY, rooms }) {
           />
           <LineMarkSeries
             className="path"
-            // opacity="0.8"
-            lineStyle={{ stroke: 'lightGreen', strokeWidth: '3px' }}
+            opacity="0.9"
+            lineStyle={{ stroke: 'lightGreen', strokeWidth: '4px' }}
             markStyle={{ stroke: 'lightGreen', strokeWidth: '10px' }}
             onSeriesMouseOut={(event) => {
               // setHoverRoom([
