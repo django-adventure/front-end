@@ -20,7 +20,10 @@ function Map({ currentX, currentY, rooms }) {
     { x: 12, y: -1 },
     { x: -1, y: -1 },
   ];
-  const player = [{ x: `${currentX}`, y: `${currentY}` }];
+  const player =
+    currentX && currentY !== undefined
+      ? [{ x: `${currentX}`, y: `${currentY}` }]
+      : null;
   const roomsArr = rooms
     ? rooms.map((room) => ({
         x: room.x,
