@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import TypedComponent from './Typed';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
+import format from 'date-fns/format';
 import './App.scss';
 
-function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
+function Display({ parseText, output, uuid, messageEventHandler }) {
   const [command, setCommand] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const inputEl = useRef(null);
@@ -47,16 +48,20 @@ function Display({ parseText, setFocus, output, uuid, messageEventHandler }) {
           <TypedComponent
             setIsVisible={setIsVisible}
             strings={[
-              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentiu voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.',
+              'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentiu voluptatum deleniti atque corrupti quos dolores et quas.',
             ]}
           />
           <div className="terminal-input">
             <br />
             <span>Type 'help for a list of avaliable commands</span>
             <ul>
-              {output.map((text, index) => (
-                <li key={index}>{text}</li>
-              ))}
+              {output.map((text, index) => {
+                const time = text.time
+                  ? ` [${format(new Date(text.time), 'iii HH:mm:ss')}]`
+                  : '';
+
+                return <li key={index}>{text.output + time}</li>;
+              })}
             </ul>
             <div style={{ display: 'flex' }}>
               <div className="prompt">$ ></div>
