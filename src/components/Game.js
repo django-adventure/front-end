@@ -142,7 +142,12 @@ function Game() {
           marginTop: '50px',
         }}
       >
-        <Map currentX={coords.x} currentY={coords.y} rooms={rooms} />
+        <Map
+          currentX={coords.x}
+          currentY={coords.y}
+          rooms={rooms}
+          currentRoom={currentRoom}
+        />
         <div
           style={{
             width: '100%',

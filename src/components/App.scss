@@ -114,10 +114,25 @@ $scan-opacity: 0.75;
   padding-right: 27px;
 }
 
-.room-title {
+.room  {
   position: absolute;
-  bottom: 10px;
-  left: 25px;
   font-family: 'VT323', monospace;
   color: #18ff62;
+
+  &--hover {
+    bottom: 10px;
+    left: 25px;
+  }
+
+  &--current {
+    top: 0;
+    right: 35px;
+    font-size: 22px;
+    color: #18ff62;
+    // right: 100px;
+  }
 }
+
+
+
+

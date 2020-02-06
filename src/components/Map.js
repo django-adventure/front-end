@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './App.scss';
 import 'react-vis/dist/style.css';
+import Clock from './Clock';
+import './App.scss';
 import links from '../data/links.js';
+
 import {
   XYPlot,
   MarkSeries,
@@ -10,7 +12,7 @@ import {
   LineMarkSeries,
 } from 'react-vis';
 
-function Map({ currentX, currentY, rooms }) {
+function Map({ currentX, currentY, rooms, currentRoom }) {
   const [hoverRoom, setHoverRoom] = useState('');
   const corners = [
     { x: 12, y: 12 },
@@ -33,7 +35,9 @@ function Map({ currentX, currentY, rooms }) {
 
   return (
     <div className="grid-overlay-2">
-      {!!hoverRoom && <div className="room-title">{hoverRoom}</div>}
+      {!!hoverRoom && <div className="room room--hover">{hoverRoom}</div>}
+      <div className="room room--current">{currentRoom.title}</div>
+      <Clock />
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
