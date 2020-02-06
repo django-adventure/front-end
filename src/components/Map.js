@@ -32,8 +32,8 @@ function Map({ currentX, currentY, rooms }) {
     <div className="grid-overlay-2">
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>
-          <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
-          <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
+          <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
+          <HorizontalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
           <MarkSeries
             className="rooms"
             strokeWidth={32}
@@ -41,17 +41,28 @@ function Map({ currentX, currentY, rooms }) {
             data={roomsArr}
             color="lightGreen"
           />
+          <MarkSeries
+            className="player-dot"
+            strokeWidth={31}
+            opacity="1"
+            data={player}
+            color="orange"
+          />
           <LineMarkSeries
             className="path"
-            style={{
-              strokeWidth: '4px',
-            }}
-            opacity="0.8"
-            lineStyle={{ stroke: 'lightGreen' }}
-            markStyle={{ stroke: 'lightGreen' }}
+            // opacity="0.8"
+            lineStyle={{ stroke: 'lightGreen', strokeWidth: '3px' }}
+            markStyle={{ stroke: 'lightGreen', strokeWidth: '12px' }}
+            // onSeriesMouseOut={(event) => {
+            //   // does something on mouse over
+            //   // you can access the value of the event
+            //   setHoverRoom([
+            //     {
+            //       label: null,
+            //     },
+            //   ]);
+            // }}
             onValueMouseOver={(datapoint, event) => {
-              // does something on click
-              // you can access the value of the event
               console.log(datapoint);
               const hover = rooms.filter((room) => {
                 return room.x === datapoint.x && room.y === datapoint.y;
@@ -61,25 +72,25 @@ function Map({ currentX, currentY, rooms }) {
                   return element.title;
                 });
                 setHoverRoom([
-                  { x: datapoint.x, y: datapoint.y, label: title[0] },
+                  {
+                    x: datapoint.x,
+                    y: datapoint.y,
+                    label: title[0],
+                    rotation: 15,
+                    style: {
+                      color: 'orange',
+                      stroke: 'black',
+                      // strokeWidth:
+                      fontSize: 50,
+                    },
+                  },
                 ]);
               }
               console.log(hoverRoom);
             }}
             data={links}
           />
-          <MarkSeries
-            className="player-dot"
-            strokeWidth={20}
-            opacity="1"
-            data={player}
-            color="lightGreen"
-          />
-          <LabelSeries
-            animation
-            allowOffsetToBeReversed
-            data={hoverRoom ? hoverRoom : undefined}
-          />
+          <LabelSeries animation allowOffsetToBeReversed data={hoverRoom} />
           <MarkSeries
             className="corners"
             strokeWidth={0.7}
