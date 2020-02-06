@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AuthWrapper from './auth.styled';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
+import Header from '../Header';
 
 function Register() {
   const [user, setUser] = useState({
@@ -43,63 +44,66 @@ function Register() {
   };
 
   return (
-    <AuthWrapper>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          autoComplete="username"
-          value={user.username}
-          onChange={handleChange}
-        />
-        {error.username &&
-          error.username.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        <input
-          name="password1"
-          type="password"
-          placeholder="Password"
-          autoComplete="new-password"
-          value={user.password1}
-          onChange={handleChange}
-        />
-        {error.password1 &&
-          error.password1.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        <input
-          name="password2"
-          type="password"
-          placeholder="Confirm Password"
-          autoComplete="new-password"
-          value={user.password2}
-          onChange={handleChange}
-        />
-        {error.password2 &&
-          error.password2.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        <button type="submit">
-          {loading ? <BeatLoader size={12} /> : 'Sign Up'}
-        </button>
-        {error.non_field_errors &&
-          error.non_field_errors.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        {error.network && <span className="error">{error.network}</span>}
-      </form>
-    </AuthWrapper>
+    <Fragment>
+      <Header />
+      <AuthWrapper>
+        <h1>Sign Up</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            autoComplete="username"
+            value={user.username}
+            onChange={handleChange}
+          />
+          {error.username &&
+            error.username.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          <input
+            name="password1"
+            type="password"
+            placeholder="Password"
+            autoComplete="new-password"
+            value={user.password1}
+            onChange={handleChange}
+          />
+          {error.password1 &&
+            error.password1.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          <input
+            name="password2"
+            type="password"
+            placeholder="Confirm Password"
+            autoComplete="new-password"
+            value={user.password2}
+            onChange={handleChange}
+          />
+          {error.password2 &&
+            error.password2.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          <button type="submit">
+            {loading ? <BeatLoader size={12} /> : 'Sign Up'}
+          </button>
+          {error.non_field_errors &&
+            error.non_field_errors.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          {error.network && <span className="error">{error.network}</span>}
+        </form>
+      </AuthWrapper>
+    </Fragment>
   );
 }
 

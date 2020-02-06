@@ -17,8 +17,6 @@ const StyledDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin-bottom: 50px;
-  /* margin-left: 50px; */
-  width: 90%;
 `;
 
 export default LeftPanel;

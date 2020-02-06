@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import AuthWrapper from './auth.styled';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
+import Header from '../Header';
 
 function Login() {
   const [user, setUser] = useState({ username: '', password: '' });
@@ -38,43 +39,47 @@ function Login() {
   };
 
   return (
-    <AuthWrapper>
-      <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          value={user.username}
-          onChange={handleChange}
-          autoComplete="username"
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={user.password}
-          onChange={handleChange}
-          autoComplete="current-password"
-        />
-        {error.password &&
-          error.password.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        <button type="submit">
-          {loading ? <BeatLoader size={12} /> : 'Sign In'}
-        </button>
-        {error.non_field_errors &&
-          error.non_field_errors.map((errorMessage) => (
-            <span key={errorMessage} className="error">
-              {errorMessage}
-            </span>
-          ))}
-        {error.network && <span className="error">{error.network}</span>}
-      </form>
-    </AuthWrapper>
+    <Fragment>
+      <Header />
+
+      <AuthWrapper>
+        <h1>Sign In</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            name="username"
+            type="text"
+            placeholder="Username"
+            value={user.username}
+            onChange={handleChange}
+            autoComplete="username"
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={user.password}
+            onChange={handleChange}
+            autoComplete="current-password"
+          />
+          {error.password &&
+            error.password.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          <button type="submit">
+            {loading ? <BeatLoader size={12} /> : 'Sign In'}
+          </button>
+          {error.non_field_errors &&
+            error.non_field_errors.map((errorMessage) => (
+              <span key={errorMessage} className="error">
+                {errorMessage}
+              </span>
+            ))}
+          {error.network && <span className="error">{error.network}</span>}
+        </form>
+      </AuthWrapper>
+    </Fragment>
   );
 }
 

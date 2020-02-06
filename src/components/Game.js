@@ -3,6 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import Display from './Display';
 import Map from './Map';
 import LeftPanel from './InfoPanel';
+import Header from './Header';
 
 function Game() {
   const [user, setUser] = useState('');
@@ -10,10 +11,7 @@ function Game() {
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [output, setOutput] = useState([]);
-  const [coords, setCoords] = useState({
-    x: undefined,
-    y: undefined,
-  });
+  const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
@@ -137,25 +135,32 @@ function Game() {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          marginBottom: '2rem',
-          alignItems: 'flex-end',
-          marginTop: '50px',
+          paddingTop: 10,
         }}
       >
-        <Map
-          currentX={coords.x}
-          currentY={coords.y}
-          rooms={rooms}
-          currentRoom={currentRoom}
-        />
         <div
           style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Header />
+          <Map
+            currentX={coords.x}
+            currentY={coords.y}
+            rooms={rooms}
+            currentRoom={currentRoom}
+          />
+        </div>
+        <div
+          style={{
+            paddingTop: 35,
             width: '100%',
             marginLeft: '50px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            // border: '1px solid red'
           }}
         >
           <LeftPanel currentRoom={currentRoom} user={user} move={move} />
