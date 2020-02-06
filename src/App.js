@@ -61,7 +61,7 @@ const Header = styled.header`
 
   a,
   button {
-    color: #61dafb;
+    color: #00cc33;
   }
 
   h1 {
