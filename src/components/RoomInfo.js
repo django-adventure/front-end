@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 function RoomInfo({ user, currentRoom }) {
   return (
-    <Wrapper>
+    <Wrapper className="scanlines">
       <StyledInfo>
         Username: {user} <br />
         Room: {currentRoom.title} <br />
@@ -22,7 +22,7 @@ function RoomInfo({ user, currentRoom }) {
 export default RoomInfo;
 
 const StyledInfo = styled.div`
-  height: 100%;
+  height: 300px;
   background: #000;
   font-family: 'VT323', monospace;
   font-size: 22px;

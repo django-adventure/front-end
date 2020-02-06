@@ -48,7 +48,8 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
           <TypedComponent
             setIsVisible={setIsVisible}
             strings={[
-              'Welcome to The Wasteland. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like doubloon or a rat-on-a-stick!',
+              "Welcome to The Wasteland. It's not much but it's what we call home now.",
+              'Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like doubloon or a rat-on-a-stick!',
               'Have fun exploring!',
             ]}
           />
