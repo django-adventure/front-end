@@ -23,7 +23,9 @@ function App() {
           <StyledLink to="/">Digital Wasteland</StyledLink>
           <nav>
             {window.localStorage.getItem('token') ? (
-              <button onClick={handleLogout}>Logout</button>
+              <button className="logout" onClick={handleLogout}>
+                Logout
+              </button>
             ) : (
               <Fragment>
                 <StyledLink to="/login">Login</StyledLink>
@@ -45,24 +47,34 @@ export default App;
 
 const AppWrapper = styled.div`
   min-height: 100vh;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(20px + 2vmin);
   width: 1500px;
   max-width: 90%;
   margin: 0 auto;
-
-  a {
-    color: #61dafb;
-  }
 `;
 
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 15px;
+  font-family: 'VT323', monospace;
+
+  a,
+  button {
+    color: #61dafb;
+  }
 
   h1 {
     font-size: 24px;
     margin-top: 0;
+  }
+
+  .logout {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    font-family: inherit;
   }
 `;
 
@@ -71,5 +83,4 @@ const StyledLink = styled(Link)`
   &:not(:first-child) {
     margin-left: 15px;
   }
-  font-family: 'VT323', monospace;
 `;
