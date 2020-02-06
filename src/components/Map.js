@@ -37,18 +37,18 @@ function Map({ currentX, currentY, rooms }) {
         <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 4, opacity: 0.1 }} />
-          <MarkSeries
+          {/* <MarkSeries
             className="rooms"
             strokeWidth={32}
             opacity="0.1"
             data={roomsArr}
             color="lightGreen"
-          />
+          /> */}
           <LineMarkSeries
             className="path"
             opacity="0.9"
-            lineStyle={{ stroke: 'lightGreen', strokeWidth: '4px' }}
-            markStyle={{ stroke: 'lightGreen', strokeWidth: '10px' }}
+            lineStyle={{ stroke: 'lightGreen', strokeWidth: '6px' }}
+            markStyle={{ stroke: 'lightGreen', strokeWidth: '5px' }}
             onSeriesMouseOut={(event) => {
               // setHoverRoom([
               //   {
@@ -85,7 +85,7 @@ function Map({ currentX, currentY, rooms }) {
           />
           <MarkSeries
             className="player-dot"
-            strokeWidth={15}
+            strokeWidth={18}
             opacity="1"
             data={player}
             color="orange"
