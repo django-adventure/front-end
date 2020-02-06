@@ -29,12 +29,12 @@ function Map({ currentX, currentY, rooms }) {
   return (
     <div className="grid-overlay-2">
       <div className="scanlines" id="map">
-        <XYPlot height={700} width={700} /*stroke="green"*/>
+        <XYPlot height={600} width={600} /*stroke="green"*/>
           <VerticalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <HorizontalGridLines style={{ strokeWidth: 5, opacity: 0.1 }} />
           <MarkSeries
             className="rooms"
-            strokeWidth={40}
+            strokeWidth={32}
             opacity="0.1"
             data={roomsArr}
             color="lightGreen"
@@ -42,7 +42,7 @@ function Map({ currentX, currentY, rooms }) {
           <LineMarkSeries
             className="path"
             style={{
-              strokeWidth: '4px',
+              strokeWidth: '3px',
             }}
             opacity="0.8"
             lineStyle={{ stroke: 'lightGreen' }}
@@ -51,7 +51,7 @@ function Map({ currentX, currentY, rooms }) {
           />
           <MarkSeries
             className="player-dot"
-            strokeWidth={20}
+            strokeWidth={14}
             opacity="1"
             data={player}
             color="lightGreen"

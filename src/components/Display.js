@@ -89,8 +89,8 @@ const StyledDisplay = styled.div`
   }
 
   background: #000;
-  font-family: 'monofont', monospace;
-  font-size: 16px;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
   color: #18ff62;
   padding: 10px;
   background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 170%);
@@ -158,6 +158,7 @@ const StyledDisplay = styled.div`
 const DisplayWrapper = styled.div`
   border: 15px solid #7b8e78;
   border-radius: 10px;
-  width: 760px;
+  /* max-width: 760px; */
+  width: 100%;
   height: 450px;
 `;

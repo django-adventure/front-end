@@ -20,7 +20,7 @@ function App() {
     <Fragment>
       <AppWrapper>
         <Header>
-          <StyledLink to="/">Untitled MUD Game</StyledLink>
+          <StyledLink to="/">Digital Wasteland</StyledLink>
           <nav>
             {window.localStorage.getItem('token') ? (
               <button onClick={handleLogout}>Logout</button>
@@ -46,7 +46,7 @@ export default App;
 const AppWrapper = styled.div`
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
-  width: 1200px;
+  width: 1500px;
   max-width: 90%;
   margin: 0 auto;
 
@@ -71,4 +71,5 @@ const StyledLink = styled(Link)`
   &:not(:first-child) {
     margin-left: 15px;
   }
+  font-family: 'VT323', monospace;
 `;

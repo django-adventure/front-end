@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import Display from './Display';
 import Map from './Map';
-import LeftPanel from './LeftPanel';
+import LeftPanel from './InfoPanel';
 
 function Game() {
   const [user, setUser] = useState('');
@@ -138,17 +138,30 @@ function Game() {
           display: 'flex',
           justifyContent: 'space-between',
           marginBottom: '2rem',
+          alignItems: 'flex-end',
+          marginTop: '50px',
         }}
       >
-        <Display
-          parseText={parseText}
-          output={output}
-          uuid={uuid}
-          messageEventHandler={messageEventHandler}
-        />
-        <LeftPanel currentRoom={currentRoom} user={user} move={move} />
+        <Map currentX={coords.x} currentY={coords.y} rooms={rooms} />
+        <div
+          style={{
+            width: '100%',
+            marginLeft: '50px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            // border: '1px solid red'
+          }}
+        >
+          <LeftPanel currentRoom={currentRoom} user={user} move={move} />
+          <Display
+            parseText={parseText}
+            output={output}
+            uuid={uuid}
+            messageEventHandler={messageEventHandler}
+          />
+        </div>
       </div>
-      <Map currentX={coords.x} currentY={coords.y} rooms={rooms} />
     </Fragment>
   );
 }
