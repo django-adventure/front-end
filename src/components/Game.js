@@ -105,7 +105,7 @@ function Game() {
         setCurrentRoom({ title, description, players, error_msg });
 
         // checks if  x and y coords have been updated
-        if (res.data.x && res.data.y) {
+        if (res.data.x !== undefined && res.data.y !== undefined) {
           setCoords({ x: res.data.x, y: res.data.y });
         }
         // add the error message to the display output

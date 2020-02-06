@@ -7,13 +7,13 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
-  LabelSeries,
 } from 'react-vis';
 import links from '../data/links.js';
 
 function Map({ currentX, currentY, rooms }) {
   // console.log(rooms);
-  const [hoverRoom, setHoverRoom] = useState();
+  console.log(currentX, currentY);
+  // const [hoverRoom, setHoverRoom] = useState();
   const corners = [
     { x: 12, y: 12 },
     { x: -1, y: 12 },
@@ -41,56 +41,52 @@ function Map({ currentX, currentY, rooms }) {
             data={roomsArr}
             color="lightGreen"
           />
-          <MarkSeries
-            className="player-dot"
-            strokeWidth={31}
-            opacity="1"
-            data={player}
-            color="orange"
-          />
           <LineMarkSeries
             className="path"
             // opacity="0.8"
             lineStyle={{ stroke: 'lightGreen', strokeWidth: '3px' }}
-            markStyle={{ stroke: 'lightGreen', strokeWidth: '12px' }}
-            // onSeriesMouseOut={(event) => {
-            //   // does something on mouse over
-            //   // you can access the value of the event
-            //   setHoverRoom([
-            //     {
-            //       label: null,
-            //     },
-            //   ]);
-            // }}
+            markStyle={{ stroke: 'lightGreen', strokeWidth: '10px' }}
+            onSeriesMouseOut={(event) => {
+              // setHoverRoom([
+              //   {
+              //     label: null,
+              //   },
+              // ]);
+            }} //...
             onValueMouseOver={(datapoint, event) => {
-              console.log(datapoint);
-              const hover = rooms.filter((room) => {
-                return room.x === datapoint.x && room.y === datapoint.y;
-              });
-              if (hover !== null || undefined) {
-                const title = hover.map((element) => {
-                  return element.title;
-                });
-                setHoverRoom([
-                  {
-                    x: datapoint.x,
-                    y: datapoint.y,
-                    label: title[0],
-                    rotation: 15,
-                    style: {
-                      color: 'orange',
-                      stroke: 'black',
-                      // strokeWidth:
-                      fontSize: 50,
-                    },
-                  },
-                ]);
-              }
-              console.log(hoverRoom);
-            }}
+              // console.log(datapoint);
+              // const hover = rooms.filter((room) => {
+              //   return room.x === datapoint.x && room.y === datapoint.y;
+              // });
+              // if (hover !== null || undefined) {
+              //   const title = hover.map((element) => {
+              //     return element.title;
+              //   });
+              //   setHoverRoom([
+              //     {
+              //       x: datapoint.x,
+              //       y: datapoint.y,
+              //       label: title[0],
+              //       // rotation: 15,
+              //       style: {
+              //         color: 'black',
+              //         fontSize: 50,
+              //         fontWeight: 'bold',
+              //       },
+              //     },
+              //   ]);
+              // }
+              // console.log(hoverRoom);
+            }} //...
             data={links}
           />
-          <LabelSeries animation allowOffsetToBeReversed data={hoverRoom} />
+          <MarkSeries
+            className="player-dot"
+            strokeWidth={15}
+            opacity="1"
+            data={player}
+            color="orange"
+          />
           <MarkSeries
             className="corners"
             strokeWidth={0.7}
