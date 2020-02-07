@@ -168,7 +168,7 @@ function Game() {
         if (res.data.room_items.length !== 0) {
           let str = 'Items in this zone: ';
           let arr = res.data.room_items.map((item) => {
-            return item.name;
+            return `${item.name} x${item.count}`;
           });
           let joined_arr = arr.join(', ');
           setOutput((prev) => [...prev, { output: str + joined_arr }]);
@@ -183,7 +183,7 @@ function Game() {
     if (playerInventory.length !== 0) {
       let itemList = playerInventory
         .map((item) => {
-          return item.name;
+          return `${item.name} x${item.count}`;
         })
         .join(', ');
       setOutput((prev) => [
