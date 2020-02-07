@@ -163,7 +163,6 @@ const StyledDisplay = styled.div`
 const DisplayWrapper = styled.div`
   border: 10px solid #566354;
   border-radius: 10px;
-  /* max-width: 760px; */
   width: 100%;
-  height: 440px;
+  height: 430px;
 `;
