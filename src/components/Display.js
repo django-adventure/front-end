@@ -5,7 +5,13 @@ import styled from 'styled-components';
 import format from 'date-fns/format';
 import './App.scss';
 
-function Display({ parseText, output, uuid, messageEventHandler }) {
+function Display({
+  parseText,
+  output,
+  uuid,
+  messageEventHandler,
+  isTextCleared,
+}) {
   const [command, setCommand] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const inputEl = useRef(null);
@@ -45,14 +51,18 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
         onClick={() => inputEl.current.focus()}
       >
         <form onSubmit={handleSubmit}>
-          <TypedComponent
-            setIsVisible={setIsVisible}
-            strings={[
-              "Welcome to The Wasteland. It's not much but it's home now. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like a rat-on-a-stick or Jeff's half-eaten donut! Have fun exploring.",
-            ]}
-          />
+          {!isTextCleared && (
+            <TypedComponent
+              onComplete={() => {
+                setIsVisible(true);
+                inputEl.current.focus();
+              }}
+              strings={[
+                "Welcome to The Wasteland. It's not much but it's home now. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like a rat-on-a-stick or Jeff's half-eaten donut! Have fun exploring.",
+              ]}
+            />
+          )}
           <div className="terminal-input">
-            <br />
             <span>Type 'help for a list of avaliable commands</span>
             <ul>
               {output.map((text, index) => {

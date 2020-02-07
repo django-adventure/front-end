@@ -15,6 +15,7 @@ function Game() {
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
   const [playerInventory, setPlayerInventory] = useState([]);
+  const [isTextCleared, setIsTextCleared] = useState(false);
 
   useEffect(() => {
     axiosWithAuth()
@@ -83,6 +84,7 @@ function Game() {
         setOutput((prev) => [...prev, { output: moveUsage }]);
       }
     } else if (cmd === 'clear') {
+      setIsTextCleared(true);
       setOutput([]);
     } else if (cmd === 'say') {
       const text = args.slice(1).join(' ');
@@ -250,6 +252,7 @@ function Game() {
         >
           <LeftPanel currentRoom={currentRoom} user={user} move={move} />
           <Display
+            isTextCleared={isTextCleared}
             parseText={parseText}
             output={output}
             uuid={uuid}
