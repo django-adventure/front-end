@@ -20,8 +20,8 @@ function Header() {
           </button>
         ) : (
           <Fragment>
-            <StyledLink to="/login">Login</StyledLink>
-            <StyledLink to="/register">Register</StyledLink>
+            <StyledLink to="/login">LOGIN</StyledLink>
+            <StyledLink to="/register">REGISTER</StyledLink>
           </Fragment>
         )}
       </nav>

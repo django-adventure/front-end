@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 const AuthWrapper = styled.div`
   max-width: 400px;
-  border: 5px solid #566354;
-  border-radius: 5px;
-
-  border-radius: 4px;
+  /* border: 5px solid #566354; */
+  border: 4px solid gray;
+  border-radius: 2px;
   margin: 10% auto 0;
   padding: 2rem;
   font-family: 'VT323', monospace;

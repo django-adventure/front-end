@@ -47,12 +47,12 @@ function Register() {
     <Fragment>
       <Header />
       <AuthWrapper className="scanlines">
-        <h1>Sign Up</h1>
+        <h1>sign up</h1>
         <form onSubmit={handleSubmit}>
           <input
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="username"
             autoComplete="username"
             value={user.username}
             onChange={handleChange}
@@ -66,7 +66,7 @@ function Register() {
           <input
             name="password1"
             type="password"
-            placeholder="Password"
+            placeholder="password"
             autoComplete="new-password"
             value={user.password1}
             onChange={handleChange}
@@ -80,7 +80,7 @@ function Register() {
           <input
             name="password2"
             type="password"
-            placeholder="Confirm Password"
+            placeholder="confirm Password"
             autoComplete="new-password"
             value={user.password2}
             onChange={handleChange}
@@ -92,7 +92,7 @@ function Register() {
               </span>
             ))}
           <button type="submit">
-            {loading ? <BeatLoader size={12} /> : 'Sign Up'}
+            {loading ? <BeatLoader size={12} color="#fff" /> : 'submit'}
           </button>
           {error.non_field_errors &&
             error.non_field_errors.map((errorMessage) => (

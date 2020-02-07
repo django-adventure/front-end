@@ -43,12 +43,12 @@ function Login() {
       <Header />
 
       <AuthWrapper className="scanlines">
-        <h1>Sign In</h1>
+        <h1>sign in</h1>
         <form onSubmit={handleSubmit}>
           <input
             name="username"
             type="text"
-            placeholder="Username"
+            placeholder="username"
             value={user.username}
             onChange={handleChange}
             autoComplete="username"
@@ -56,7 +56,7 @@ function Login() {
           <input
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="password"
             value={user.password}
             onChange={handleChange}
             autoComplete="current-password"
@@ -68,7 +68,7 @@ function Login() {
               </span>
             ))}
           <button type="submit">
-            {loading ? <BeatLoader size={12} /> : 'Sign In'}
+            {loading ? <BeatLoader size={12} color="#fff" /> : 'submit'}
           </button>
           {error.non_field_errors &&
             error.non_field_errors.map((errorMessage) => (
