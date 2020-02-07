@@ -161,7 +161,7 @@ function Game() {
       .then((res) => {
         console.log(res.data);
         if (res.data.room_items) {
-          let str = 'Items in this zone:' + '\n';
+          let str = 'Items in this zone:';
           res.data.room_items.map((item) => {
             str += item.name + ': ' + item.description + '\n';
           });
@@ -178,6 +178,18 @@ function Game() {
       .get('api/adv/inventory/')
       .then((res) => {
         console.log(res.data);
+        if (res.data.inventory) {
+          let str = 'Items in your inventory:';
+          res.data.inventory.map((item) => {
+            str += item.name + ': ' + item.description + '\n';
+          });
+          setOutput((prev) => [...prev, { output: str }]);
+        } else {
+          setOutput((prev) => [
+            ...prev,
+            { output: 'No items in your inventory.' },
+          ]);
+        }
       })
       .catch((err) => console.log(err));
   };
