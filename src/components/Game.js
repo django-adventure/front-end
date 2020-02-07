@@ -30,6 +30,7 @@ function Game() {
           rooms,
           x,
           y,
+          inventory,
         } = res.data;
         setUuid(uuid);
         setUser(name);
@@ -37,6 +38,7 @@ function Game() {
         setLoading(false);
         setCoords({ x: x, y: y });
         setRooms(rooms);
+        setPlayerInventory(inventory);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -137,6 +139,7 @@ function Game() {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
           setOutput((prev) => [...prev, { output: res.data.message }]);
+          setPlayerInventory(res.data.inventory);
         }
       })
       .catch((err) => console.log(err));
@@ -151,6 +154,7 @@ function Game() {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
           setOutput((prev) => [...prev, { output: res.data.message }]);
+          setPlayerInventory(res.data.inventory);
         }
       })
       .catch((err) => console.log(err));
@@ -176,26 +180,19 @@ function Game() {
   };
 
   const inventory = () => {
-    axiosWithAuth()
-      .get('api/adv/inventory/')
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.inventory.length !== 0) {
-          let str = 'Items in your inventory: ';
-          let arr = res.data.inventory.map((item) => {
-            return item.name;
-          });
-          let joined_arr = arr.join(', ');
-          setOutput((prev) => [...prev, { output: str + joined_arr }]);
-        } else {
-          setOutput((prev) => [
-            ...prev,
-            { output: 'No items in your inventory.' },
-          ]);
-        }
-        setPlayerInventory(res.data.inventory);
-      })
-      .catch((err) => console.log(err));
+    if (playerInventory.length !== 0) {
+      let itemList = playerInventory
+        .map((item) => {
+          return item.name;
+        })
+        .join(', ');
+      setOutput((prev) => [
+        ...prev,
+        { output: 'Items in your inventory: ' + itemList },
+      ]);
+    } else {
+      setOutput((prev) => [...prev, { output: 'No items in your inventory.' }]);
+    }
   };
 
   const messageEventHandler = (data) => {
