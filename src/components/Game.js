@@ -14,7 +14,10 @@ function Game() {
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
 
+  var audio = new Audio('../music/');
+
   useEffect(() => {
+    audio.play();
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
@@ -60,8 +63,10 @@ function Game() {
       { output: 'help -  This output' },
       { output: `move - Attempts to move in the direction supplied.` },
       { output: `say - Broadcasts a message to any players in current room.` },
-      { output: 'get - Picks up item from the current room.' },
-      { output: 'drop - Drops item into the current room.' },
+      { output: 'look - Checks the room for items.' },
+      { output: 'inventory - Checks your inventory.' },
+      { output: 'get - Picks up item from current room.' },
+      { output: 'drop - Drops item into current room.' },
       { output: 'clear - Clears your screen' },
     ];
 
