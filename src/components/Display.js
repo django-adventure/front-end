@@ -3,6 +3,7 @@ import TypedComponent from './Typed';
 import Pusher from 'pusher-js';
 import styled from 'styled-components';
 import format from 'date-fns/format';
+import DevCredits from './DevCredits';
 import './App.scss';
 
 function Display({
@@ -11,6 +12,8 @@ function Display({
   uuid,
   messageEventHandler,
   isTextCleared,
+  showCredits,
+  setShowCredits,
 }) {
   const [command, setCommand] = useState('');
   const [isVisible, setIsVisible] = useState(false);
@@ -20,6 +23,7 @@ function Display({
     // scroll to bottom of terminal after each new output
     const terminal = document.querySelector('.terminal');
     terminal.scrollTop = terminal.scrollHeight;
+    !showCredits && inputEl.current.focus();
   });
 
   useEffect(() => {
@@ -48,7 +52,7 @@ function Display({
       <StyledDisplay
         isVisible={isVisible}
         className="terminal"
-        onClick={() => inputEl.current.focus()}
+        onClick={() => !showCredits && inputEl.current.focus()}
       >
         <form onSubmit={handleSubmit}>
           {!isTextCleared && (
@@ -62,49 +66,33 @@ function Display({
               ]}
             />
           )}
-          <div className="terminal-input">
-            <span>Type 'help' for a list of avaliable commands</span>
-            <ul>
-              {output.map((text, index) => {
-                const time = text.time
-                  ? ` [${format(new Date(text.time), 'iii HH:mm:ss')}]`
-                  : '';
-                return <li key={index}>{text.output + time}</li>;
-              })}
-            </ul>
-            <div>
-              <span>Cameron Alvarado - </span>
-              <a href="https://github.com/jonyonson">
-                https://github.com/jonyonson
-              </a>
-              <br />
-              <span>Allison Donnelly - </span>
-              <a href="https://github.com/jonyonson">
-                https://github.com/jonyonson
-              </a>
-              <br />
-              <span>Samir Lilienfeld - </span>
-              <a href="https://github.com/jonyonson">
-                https://github.com/jonyonson
-              </a>
-              <br />
-              <span>Jonathan Taylor - </span>
-              <a href="https://github.com/jonyonson">
-                https://github.com/jonyonson
-              </a>
-              <br />
+          {showCredits ? (
+            <div className="terminal-input">
+              <DevCredits setShowCredits={setShowCredits} />
             </div>
-            <div style={{ display: 'flex' }}>
-              <div className="prompt">$ ></div>
-              <input
-                ref={inputEl}
-                type="text"
-                spellCheck="false"
-                value={command}
-                onChange={(e) => setCommand(e.target.value)}
-              />
+          ) : (
+            <div className="terminal-input">
+              <span>Type 'help' for a list of avaliable commands</span>
+              <ul>
+                {output.map((text, index) => {
+                  const time = text.time
+                    ? ` [${format(new Date(text.time), 'iii HH:mm:ss')}]`
+                    : '';
+                  return <li key={index}>{text.output + time}</li>;
+                })}
+              </ul>
+              <div style={{ display: 'flex' }}>
+                <div className="prompt">$ ></div>
+                <input
+                  ref={inputEl}
+                  type="text"
+                  spellCheck="false"
+                  value={command}
+                  onChange={(e) => setCommand(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </form>
       </StyledDisplay>
     </DisplayWrapper>

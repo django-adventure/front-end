@@ -16,6 +16,7 @@ function Game() {
   const [rooms, setRooms] = useState([]);
   const [playerInventory, setPlayerInventory] = useState([]);
   const [isTextCleared, setIsTextCleared] = useState(false);
+  const [showCredits, setShowCredits] = useState(false);
 
   useEffect(() => {
     axiosWithAuth()
@@ -62,13 +63,14 @@ function Game() {
     const moveUsage = 'Usage: move < n | s | e | w >';
     const help = [
       { output: 'help -  This output' },
-      { output: 'move - Attempts to move in the direction supplied.' },
-      { output: 'say - Broadcasts a message to any players in current room.' },
-      { output: 'look - Checks the room for items.' },
-      { output: 'inventory - Checks your inventory.' },
-      { output: 'get - Picks up specified item from current room.' },
-      { output: 'drop - Drops specified item into current room.' },
+      { output: 'move - Attempts to move in the direction supplied' },
+      { output: 'say - Broadcasts a message to any players in current room' },
+      { output: 'look - Checks the room for items' },
+      { output: 'inventory - Checks your inventory' },
+      { output: 'get - Picks up specified item from current room' },
+      { output: 'drop - Drops specified item into current room' },
       { output: 'clear - Clears your screen' },
+      { output: 'credits - Lists the developers of Digital Wasteland' },
     ];
 
     if (cmd === 'move') {
@@ -101,6 +103,11 @@ function Game() {
       inventory();
     } else if (cmd === 'help') {
       setOutput((prev) => [...prev, ...help]);
+    } else if (cmd === 'credits') {
+      // List the credits
+      setIsTextCleared(true);
+      setOutput([]);
+      setShowCredits(true);
     } else {
       setOutput((prev) => [...prev, { output: `No such command '${cmd}'` }]);
     }
@@ -257,6 +264,8 @@ function Game() {
             output={output}
             uuid={uuid}
             messageEventHandler={messageEventHandler}
+            showCredits={showCredits}
+            setShowCredits={setShowCredits}
           />
         </div>
       </div>
