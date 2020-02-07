@@ -7,7 +7,7 @@ import './App.scss';
 
 function Display({ parseText, output, uuid, messageEventHandler }) {
   const [command, setCommand] = useState('');
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -45,12 +45,12 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
         onClick={() => inputEl.current.focus()}
       >
         <form onSubmit={handleSubmit}>
-          {/* <TypedComponent
+          <TypedComponent
             setIsVisible={setIsVisible}
             strings={[
               "Welcome to The Wasteland. It's not much but it's home now. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like a or a rat-on-a-stick or Jeff's half-eaten donut! Have fun exploring.",
             ]}
-          /> */}
+          />
           <div className="terminal-input">
             <br />
             <span>Type 'help for a list of avaliable commands</span>
