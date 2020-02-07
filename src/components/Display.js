@@ -161,9 +161,9 @@ const StyledDisplay = styled.div`
 `;
 
 const DisplayWrapper = styled.div`
-  border: 15px solid #566354;
+  border: 10px solid #566354;
   border-radius: 10px;
   /* max-width: 760px; */
   width: 100%;
-  height: 450px;
+  height: 440px;
 `;

@@ -24,9 +24,6 @@ export default App;
 
 const AppWrapper = styled.div`
   min-height: 100vh;
-  font-size: calc(20px + 2vmin);
-  width: 1500px;
-  min-width: 1300px;
   max-width: 95%;
   margin: 0 auto;
 `;

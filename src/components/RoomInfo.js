@@ -6,7 +6,6 @@ function RoomInfo({ user, currentRoom }) {
     <Wrapper className="scanlines">
       <StyledInfo>
         Username: {user} <br />
-        {/* Room: {currentRoom.title} <br /> */}
         <p>{currentRoom.description}</p>
         <p>
           Players in room:{' '}
@@ -22,8 +21,7 @@ function RoomInfo({ user, currentRoom }) {
 export default RoomInfo;
 
 const StyledInfo = styled.div`
-  /* height: 100%; */
-  height: 260px;
+  height: 270px;
   overflow-y: auto;
   background: #000;
   font-family: 'VT323', monospace;
@@ -55,7 +53,7 @@ const StyledInfo = styled.div`
   }
 
   p {
-    font-size: 22px;
+    font-size: 20px;
   }
 `;
 
