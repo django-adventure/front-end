@@ -19,7 +19,7 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const {
           name,
           title,
@@ -63,6 +63,10 @@ function Game() {
       { output: 'help -  This output' },
       { output: `move - Attempts to move in the direction supplied.` },
       { output: `say - Broadcasts a message to any players in current room.` },
+      { output: 'look - Checks the room for items.' },
+      { output: 'inventory - Checks your inventory.' },
+      { output: 'get - Picks up specified item from current room.' },
+      { output: 'drop - Drops specified item into current room.' },
       { output: 'clear - Clears your screen' },
     ];
 
