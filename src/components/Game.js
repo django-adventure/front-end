@@ -18,7 +18,7 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const {
           name,
           title,
