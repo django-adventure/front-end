@@ -86,6 +86,10 @@ function Game() {
     } else if (cmd === 'drop') {
       const item = args.slice(1).join(' ');
       drop(item);
+    } else if (cmd === 'look') {
+      look();
+    } else if (cmd === 'inventory') {
+      inventory();
     } else if (cmd === 'help') {
       setOutput((prev) => [...prev, ...help]);
     } else {
@@ -147,6 +151,33 @@ function Game() {
         } else {
           setOutput((prev) => [...prev, { output: res.data.message }]);
         }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const look = () => {
+    axiosWithAuth()
+      .get('api/adv/look/')
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.room_items) {
+          let str = 'Items in this zone:' + '\n';
+          res.data.room_items.map((item) => {
+            str += item.name + ': ' + item.description + '\n';
+          });
+          setOutput((prev) => [...prev, { output: str }]);
+        } else {
+          setOutput((prev) => [...prev, { output: 'No items in this room.' }]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const inventory = () => {
+    axiosWithAuth()
+      .get('api/adv/inventory/')
+      .then((res) => {
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   };
