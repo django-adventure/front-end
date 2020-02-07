@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import 'react-vis/dist/style.css';
 import Clock from './Clock';
-import './App.scss';
 import links from '../data/links.js';
 
 import {
@@ -45,7 +44,6 @@ function Map({ currentX, currentY, rooms, currentRoom }) {
           <li key={generateKey(item.name)}>{`${item.name} x ${item.count}`}</li>
         ))}
       </ul>
-
       <Clock />
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>

@@ -8,6 +8,5 @@ export const axiosWithAuth = () => {
       Authorization: `Token ${token}`,
     },
     baseURL: 'https://django-adventure.herokuapp.com/',
-    // baseURL: 'http://localhost:8000/',
   });
 };

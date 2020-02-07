@@ -4,7 +4,6 @@ import Pusher from 'pusher-js';
 import styled from 'styled-components';
 import format from 'date-fns/format';
 import DevCredits from './DevCredits';
-import './App.scss';
 
 function Display({
   parseText,
