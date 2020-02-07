@@ -72,8 +72,5 @@ const StyledInfo = styled.div`
 const Wrapper = styled.div`
   border: 5px solid #566354;
   border-radius: 5px;
-  /* max-width: 760px; */
-  /* width: 400px; */
-  /* height: 270px; */
   margin-right: 50px;
 `;
