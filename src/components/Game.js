@@ -60,9 +60,9 @@ function Game() {
       { output: 'help -  This output' },
       { output: `move - Attempts to move in the direction supplied.` },
       { output: `say - Broadcasts a message to any players in current room.` },
-      { output: 'clear - Clears your screen' },
       { output: 'get - Picks up item from the current room.' },
       { output: 'drop - Drops item into the current room.' },
+      { output: 'clear - Clears your screen' },
     ];
 
     if (cmd === 'move') {
