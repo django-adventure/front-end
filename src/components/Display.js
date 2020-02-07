@@ -48,7 +48,7 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
           <TypedComponent
             setIsVisible={setIsVisible}
             strings={[
-              "Welcome to The Wasteland. It's not much but it's home now. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like a or a rat-on-a-stick or Jeff's half-eaten donut! Have fun exploring.",
+              "Welcome to The Wasteland. It's not much but it's home now. Here you can traverse and interact with other players in different zones. If you look around you might find something interesting, like a rat-on-a-stick or Jeff's half-eaten donut! Have fun exploring.",
             ]}
           />
           <div className="terminal-input">
@@ -59,7 +59,6 @@ function Display({ parseText, output, uuid, messageEventHandler }) {
                 const time = text.time
                   ? ` [${format(new Date(text.time), 'iii HH:mm:ss')}]`
                   : '';
-
                 return <li key={index}>{text.output + time}</li>;
               })}
             </ul>

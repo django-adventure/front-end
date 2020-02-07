@@ -8,10 +8,7 @@ class TypedComponent extends React.Component {
     const options = {
       strings: strings,
       typeSpeed: 40,
-      // backSpeed: 15,
-      // loop: true,
-      // loopCount: Infinity,
-      showCursor: true,
+      showCursor: false,
       onComplete: (self) => {
         this.props.setIsVisible(true);
       },
@@ -24,12 +21,8 @@ class TypedComponent extends React.Component {
   }
 
   render() {
-    const style = {
-      // display: 'block',
-      // width: '100%'
-    };
     return (
-      <div style={style} className="wrap" onClick={() => this.typed.start()}>
+      <div className="wrap" onClick={() => this.typed.start()}>
         <div className="type-wrap">
           <span
             style={{ whiteSpace: 'pre-wrap' }}
