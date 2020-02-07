@@ -33,13 +33,15 @@ const StyledInfo = styled.div`
   font-size: 22px;
   color: #ff9210;
   padding: 10px;
-  background-image: radial-gradient(rgba(105, 86, 9, 0.75), black 170%);
-  text-shadow: 0 0 5px #c8c8c8;
 
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
     width: 0px;
   }
 
+  background-image: radial-gradient(rgba(105, 86, 9, 0.75), black 170%);
+  text-shadow: 0 0 5px #c8c8c8;
   &::after {
     content: '';
     position: absolute;

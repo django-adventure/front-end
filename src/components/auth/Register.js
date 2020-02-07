@@ -46,7 +46,7 @@ function Register() {
   return (
     <Fragment>
       <Header />
-      <AuthWrapper>
+      <AuthWrapper className="scanlines">
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
           <input
