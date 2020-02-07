@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const LeftPanel = ({ currentRoom, user, move }) => {
   return (
-    <StyledDiv className="scanlines">
+    <StyledDiv>
       <RoomInfo currentRoom={currentRoom} user={user} />
       <Navigation move={move} />
     </StyledDiv>

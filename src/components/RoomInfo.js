@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 function RoomInfo({ user, currentRoom }) {
   return (
-    <Wrapper>
+    <Wrapper className="scanlines">
       <StyledInfo>
         Username: {user} <br />
-        Room: {currentRoom.title} <br />
+        {/* Room: {currentRoom.title} <br /> */}
         <p>{currentRoom.description}</p>
         <p>
           Players in room:{' '}
@@ -22,7 +22,9 @@ function RoomInfo({ user, currentRoom }) {
 export default RoomInfo;
 
 const StyledInfo = styled.div`
-  height: 100%;
+  /* height: 100%; */
+  height: 260px;
+  overflow-y: auto;
   background: #000;
   font-family: 'VT323', monospace;
   font-size: 22px;
@@ -30,6 +32,10 @@ const StyledInfo = styled.div`
   padding: 10px;
   background-image: radial-gradient(rgba(105, 86, 9, 0.75), black 170%);
   text-shadow: 0 0 5px #c8c8c8;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
 
   &::after {
     content: '';

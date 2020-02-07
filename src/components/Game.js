@@ -13,12 +13,13 @@ function Game() {
   const [output, setOutput] = useState([]);
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
+  const [playerInventory, setPlayerInventory] = useState([]);
 
   useEffect(() => {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const {
           name,
           title,
@@ -29,6 +30,7 @@ function Game() {
           rooms,
           x,
           y,
+          inventory,
         } = res.data;
         setUuid(uuid);
         setUser(name);
@@ -36,6 +38,7 @@ function Game() {
         setLoading(false);
         setCoords({ x: x, y: y });
         setRooms(rooms);
+        setPlayerInventory(inventory);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -60,6 +63,10 @@ function Game() {
       { output: 'help -  This output' },
       { output: `move - Attempts to move in the direction supplied.` },
       { output: `say - Broadcasts a message to any players in current room.` },
+      { output: 'look - Checks the room for items.' },
+      { output: 'inventory - Checks your inventory.' },
+      { output: 'get - Picks up specified item from current room.' },
+      { output: 'drop - Drops specified item into current room.' },
       { output: 'clear - Clears your screen' },
     ];
 
@@ -80,6 +87,16 @@ function Game() {
     } else if (cmd === 'say') {
       const text = args.slice(1).join(' ');
       say(text);
+    } else if (cmd === 'get') {
+      const item = args.slice(1).join(' ');
+      get(item);
+    } else if (cmd === 'drop') {
+      const item = args.slice(1).join(' ');
+      drop(item);
+    } else if (cmd === 'look') {
+      look();
+    } else if (cmd === 'inventory') {
+      inventory();
     } else if (cmd === 'help') {
       setOutput((prev) => [...prev, ...help]);
     } else {
@@ -115,6 +132,74 @@ function Game() {
           setOutput((prev) => [...prev, { output: successMsg }]);
       })
       .catch((err) => console.log(err));
+  };
+
+  const get = (item) => {
+    axiosWithAuth()
+      .post('api/adv/get/', { item: item })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else {
+          setOutput((prev) => [
+            ...prev,
+            { output: `${res.data.message}: ${res.data.item.description}` },
+          ]);
+          setPlayerInventory(res.data.inventory);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const drop = (item) => {
+    axiosWithAuth()
+      .post('api/adv/drop/', { item: item })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else {
+          setOutput((prev) => [...prev, { output: res.data.message }]);
+          setPlayerInventory(res.data.inventory);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const look = () => {
+    axiosWithAuth()
+      .get('api/adv/look/')
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.room_items.length !== 0) {
+          let str = 'Items in this zone: ';
+          let arr = res.data.room_items.map((item) => {
+            return `${item.name} x${item.count}`;
+          });
+          let joined_arr = arr.join(', ');
+          setOutput((prev) => [...prev, { output: str + joined_arr }]);
+        } else {
+          setOutput((prev) => [...prev, { output: 'No items in this room.' }]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const inventory = () => {
+    if (playerInventory.length !== 0) {
+      let itemList = playerInventory
+        .map((item) => {
+          return `${item.name} x${item.count}`;
+        })
+        .join(', ');
+      setOutput((prev) => [
+        ...prev,
+        { output: 'Items in your inventory: ' + itemList },
+      ]);
+    } else {
+      setOutput((prev) => [...prev, { output: 'No items in your inventory.' }]);
+    }
   };
 
   const messageEventHandler = (data) => {
