@@ -22,7 +22,8 @@ function RoomInfo({ user, currentRoom }) {
 export default RoomInfo;
 
 const StyledInfo = styled.div`
-  height: 300px;
+  min-height: 300px;
+  min-width: 500px;
   background: #000;
   font-family: 'VT323', monospace;
   font-size: 22px;
