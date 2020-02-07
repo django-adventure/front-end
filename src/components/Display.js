@@ -63,7 +63,7 @@ function Display({
             />
           )}
           <div className="terminal-input">
-            <span>Type 'help for a list of avaliable commands</span>
+            <span>Type 'help' for a list of avaliable commands</span>
             <ul>
               {output.map((text, index) => {
                 const time = text.time
