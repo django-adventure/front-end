@@ -13,6 +13,7 @@ function Game() {
   const [output, setOutput] = useState([]);
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
+  const [playerInventory, setPlayerInventory] = useState([]);
 
   useEffect(() => {
     axiosWithAuth()
@@ -160,12 +161,13 @@ function Game() {
       .get('api/adv/look/')
       .then((res) => {
         console.log(res.data);
-        if (res.data.room_items) {
-          let str = 'Items in this zone:';
-          res.data.room_items.map((item) => {
-            str += item.name + ': ' + item.description + '\n';
+        if (res.data.room_items.length !== 0) {
+          let str = 'Items in this zone: ';
+          let arr = res.data.room_items.map((item) => {
+            return item.name;
           });
-          setOutput((prev) => [...prev, { output: str }]);
+          let joined_arr = arr.join(', ');
+          setOutput((prev) => [...prev, { output: str + joined_arr }]);
         } else {
           setOutput((prev) => [...prev, { output: 'No items in this room.' }]);
         }
@@ -178,18 +180,20 @@ function Game() {
       .get('api/adv/inventory/')
       .then((res) => {
         console.log(res.data);
-        if (res.data.inventory) {
-          let str = 'Items in your inventory:';
-          res.data.inventory.map((item) => {
-            str += item.name + ': ' + item.description + '\n';
+        if (res.data.inventory.length !== 0) {
+          let str = 'Items in your inventory: ';
+          let arr = res.data.inventory.map((item) => {
+            return item.name;
           });
-          setOutput((prev) => [...prev, { output: str }]);
+          let joined_arr = arr.join(', ');
+          setOutput((prev) => [...prev, { output: str + joined_arr }]);
         } else {
           setOutput((prev) => [
             ...prev,
             { output: 'No items in your inventory.' },
           ]);
         }
+        setPlayerInventory(res.data.inventory);
       })
       .catch((err) => console.log(err));
   };
