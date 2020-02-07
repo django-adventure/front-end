@@ -80,7 +80,7 @@ function Register() {
           <input
             name="password2"
             type="password"
-            placeholder="confirm Password"
+            placeholder="confirm password"
             autoComplete="new-password"
             value={user.password2}
             onChange={handleChange}
