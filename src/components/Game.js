@@ -62,8 +62,8 @@ function Game() {
       { output: `say - Broadcasts a message to any players in current room.` },
       { output: 'look - Checks the room for items.' },
       { output: 'inventory - Checks your inventory.' },
-      { output: 'get - Picks up item from current room.' },
-      { output: 'drop - Drops item into current room.' },
+      { output: 'get - Picks up specified item from current room.' },
+      { output: 'drop - Drops specified item into current room.' },
       { output: 'clear - Clears your screen' },
     ];
 
