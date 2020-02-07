@@ -33,6 +33,10 @@ const StyledInfo = styled.div`
   background-image: radial-gradient(rgba(105, 86, 9, 0.75), black 170%);
   text-shadow: 0 0 5px #c8c8c8;
 
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
   &::after {
     content: '';
     position: absolute;
