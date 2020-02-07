@@ -8,7 +8,7 @@ class TypedComponent extends React.Component {
     const options = {
       strings: strings,
       typeSpeed: 40,
-      backSpeed: 15,
+      // backSpeed: 15,
       // loop: true,
       // loopCount: Infinity,
       showCursor: true,
