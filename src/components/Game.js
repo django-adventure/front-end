@@ -61,6 +61,8 @@ function Game() {
       { output: `move - Attempts to move in the direction supplied.` },
       { output: `say - Broadcasts a message to any players in current room.` },
       { output: 'clear - Clears your screen' },
+      { output: 'get - Picks up item from the current room.' },
+      { output: 'drop - Drops item into the current room.' },
     ];
 
     if (cmd === 'move') {
