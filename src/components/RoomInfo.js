@@ -5,10 +5,11 @@ function RoomInfo({ user, currentRoom }) {
   return (
     <Wrapper className="scanlines">
       <StyledInfo>
-        Username: {user} <br />
-        {/* Room: {currentRoom.title} <br /> */}
-        <p>{currentRoom.description}</p>
-        <p>
+        <div className="top">
+          <p className="username">username: {user}</p>
+          <p className="current-room">{currentRoom.description}</p>
+        </div>
+        <p className="players">
           Players in room:{' '}
           {currentRoom.players.length
             ? `${currentRoom.players.join(', ')}`
@@ -22,8 +23,10 @@ function RoomInfo({ user, currentRoom }) {
 export default RoomInfo;
 
 const StyledInfo = styled.div`
-  /* height: 100%; */
-  height: 260px;
+  height: 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   overflow-y: auto;
   background: #000;
   font-family: 'VT323', monospace;
@@ -54,16 +57,20 @@ const StyledInfo = styled.div`
     pointer-events: none;
   }
 
-  p {
+  .username,
+  .current-room,
+  .players {
+    margin: 0 0 10px;
     font-size: 22px;
+  }
+
+  .players {
+    margin: 0;
   }
 `;
 
 const Wrapper = styled.div`
   border: 5px solid #566354;
   border-radius: 5px;
-  /* max-width: 760px; */
-  /* width: 400px; */
-  /* height: 270px; */
   margin-right: 50px;
 `;

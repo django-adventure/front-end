@@ -8,13 +8,8 @@ class TypedComponent extends React.Component {
     const options = {
       strings: strings,
       typeSpeed: 40,
-      // backSpeed: 15,
-      // loop: true,
-      // loopCount: Infinity,
-      showCursor: true,
-      onComplete: (self) => {
-        this.props.setIsVisible(true);
-      },
+      showCursor: false,
+      onComplete: () => this.props.onComplete(),
     };
     this.typed = new Typed(this.el, options);
   }
@@ -24,10 +19,7 @@ class TypedComponent extends React.Component {
   }
 
   render() {
-    const style = {
-      // display: 'block',
-      // width: '100%'
-    };
+    const style = { marginBottom: 20 };
     return (
       <div style={style} className="wrap" onClick={() => this.typed.start()}>
         <div className="type-wrap">
