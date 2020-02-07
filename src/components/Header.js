@@ -12,7 +12,7 @@ function Header() {
 
   return (
     <StyledHeader>
-      <StyledLink to="/">Digital Wasteland</StyledLink>
+      <h1>Digital Wasteland</h1>
       <nav>
         {window.localStorage.getItem('token') ? (
           <button className="logout" onClick={handleLogout}>
@@ -34,18 +34,19 @@ export default Header;
 const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   align-content: flex-start;
   padding: 15px;
   font-family: 'VT323', monospace;
+  color: #00cc33;
 
-  a,
   button {
-    color: #00cc33;
+    color: inherit;
   }
-
   h1 {
-    font-size: 24px;
-    margin-top: 0;
+    color: inherit;
+    font-size: calc(24px + 2vmin);
+    margin: 0;
   }
 
   .logout {
@@ -59,7 +60,9 @@ const StyledHeader = styled.header`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  color: inherit;
+  font-size: calc(16px + 2vmin);
   &:not(:first-child) {
-    margin-left: 15px;
+    margin-left: 25px;
   }
 `;

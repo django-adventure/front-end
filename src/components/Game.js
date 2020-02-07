@@ -1,5 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import styled from 'styled-components';
 import Display from './Display';
 import Map from './Map';
 import LeftPanel from './InfoPanel';
@@ -14,12 +15,12 @@ function Game() {
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
   const [playerInventory, setPlayerInventory] = useState([]);
+  const [isTextCleared, setIsTextCleared] = useState(false);
 
   useEffect(() => {
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
-        // console.log(res);
         const {
           name,
           title,
@@ -36,7 +37,7 @@ function Game() {
         setUser(name);
         setCurrentRoom({ title, description, players, error_msg });
         setLoading(false);
-        setCoords({ x: x, y: y });
+        setCoords({ x, y });
         setRooms(rooms);
         setPlayerInventory(inventory);
       })
@@ -61,8 +62,8 @@ function Game() {
     const moveUsage = 'Usage: move < n | s | e | w >';
     const help = [
       { output: 'help -  This output' },
-      { output: `move - Attempts to move in the direction supplied.` },
-      { output: `say - Broadcasts a message to any players in current room.` },
+      { output: 'move - Attempts to move in the direction supplied.' },
+      { output: 'say - Broadcasts a message to any players in current room.' },
       { output: 'look - Checks the room for items.' },
       { output: 'inventory - Checks your inventory.' },
       { output: 'get - Picks up specified item from current room.' },
@@ -83,6 +84,7 @@ function Game() {
         setOutput((prev) => [...prev, { output: moveUsage }]);
       }
     } else if (cmd === 'clear') {
+      setIsTextCleared(true);
       setOutput([]);
     } else if (cmd === 'say') {
       const text = args.slice(1).join(' ');
@@ -215,7 +217,7 @@ function Game() {
   };
 
   return loading ? null : (
-    <Fragment>
+    <GameWrapper>
       <div
         style={{
           display: 'flex',
@@ -250,6 +252,7 @@ function Game() {
         >
           <LeftPanel currentRoom={currentRoom} user={user} move={move} />
           <Display
+            isTextCleared={isTextCleared}
             parseText={parseText}
             output={output}
             uuid={uuid}
@@ -257,8 +260,16 @@ function Game() {
           />
         </div>
       </div>
-    </Fragment>
+    </GameWrapper>
   );
 }
 
 export default Game;
+
+const GameWrapper = styled.div`
+  width: 1300px;
+  margin: 0 auto;
+  min-width: 1300px;
+  width: 100%;
+  max-width: 1500px;
+`;

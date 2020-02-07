@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 export default LeftPanel;
