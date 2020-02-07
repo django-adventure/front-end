@@ -10,12 +10,11 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   LineMarkSeries,
-  // XAxis,
-  // YAxis,
 } from 'react-vis';
 
 function Map({ currentX, currentY, rooms, currentRoom }) {
   const [hoverRoom, setHoverRoom] = useState('');
+
   const corners = [
     { x: 12, y: 12 },
     { x: -1, y: 12 },
@@ -35,10 +34,18 @@ function Map({ currentX, currentY, rooms, currentRoom }) {
   //     }))
   //   : null;
 
+  const generateKey = (pre) => `${pre}_${new Date().getTime()}`;
+
   return (
     <div className="grid-overlay">
       {!!hoverRoom && <div className="room room--hover">{hoverRoom}</div>}
       <div className="room room--current">{currentRoom.title}</div>
+      <ul className="room-items">
+        {currentRoom.room_items.map((item) => (
+          <li key={generateKey(item.name)}>{`${item.name} x ${item.count}`}</li>
+        ))}
+      </ul>
+
       <Clock />
       <div className="scanlines" id="map">
         <XYPlot height={600} width={600} /*stroke="green"*/>

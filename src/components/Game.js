@@ -32,10 +32,11 @@ function Game() {
           x,
           y,
           inventory,
+          room_items,
         } = res.data;
         setUuid(uuid);
         setUser(name);
-        setCurrentRoom({ title, description, players, error_msg });
+        setCurrentRoom({ title, description, players, room_items, error_msg });
         setLoading(false);
         setCoords({ x, y });
         setRooms(rooms);
@@ -116,8 +117,8 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/move/', { direction })
       .then((res) => {
-        const { title, description, players, error_msg } = res.data;
-        setCurrentRoom({ title, description, players, error_msg });
+        const { title, description, players, room_items, error_msg } = res.data;
+        setCurrentRoom({ title, description, players, room_items, error_msg });
 
         // checks if  x and y coords have been updated
         if (res.data.x !== undefined && res.data.y !== undefined) {
@@ -149,6 +150,8 @@ function Game() {
             { output: `${res.data.message}: ${res.data.item.description}` },
           ]);
           setPlayerInventory(res.data.inventory);
+          const { room_items } = res.data;
+          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
         }
       })
       .catch((err) => console.log(err));
@@ -158,12 +161,14 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/drop/', { item: item })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
           setOutput((prev) => [...prev, { output: res.data.message }]);
           setPlayerInventory(res.data.inventory);
+          const { room_items } = res.data;
+          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
         }
       })
       .catch((err) => console.log(err));
