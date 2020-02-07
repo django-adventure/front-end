@@ -80,6 +80,12 @@ function Game() {
     } else if (cmd === 'say') {
       const text = args.slice(1).join(' ');
       say(text);
+    } else if (cmd === 'get') {
+      const item = args.slice(1).join(' ');
+      get(item);
+    } else if (cmd === 'drop') {
+      const item = args.slice(1).join(' ');
+      drop(item);
     } else if (cmd === 'help') {
       setOutput((prev) => [...prev, ...help]);
     } else {
@@ -113,6 +119,34 @@ function Game() {
         const successMsg = `You walked ${dirs[direction]}`;
         !error_msg.length &&
           setOutput((prev) => [...prev, { output: successMsg }]);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const get = (item) => {
+    axiosWithAuth()
+      .post('api/adv/get/', { item: item })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else {
+          setOutput((prev) => [...prev, { output: res.data.message }]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const drop = (item) => {
+    axiosWithAuth()
+      .post('api/adv/drop/', { item: item })
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else {
+          setOutput((prev) => [...prev, { output: res.data.message }]);
+        }
       })
       .catch((err) => console.log(err));
   };
