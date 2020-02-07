@@ -63,7 +63,7 @@ function Display({
             />
           )}
           <div className="terminal-input">
-            <span>Type 'help for a list of avaliable commands</span>
+            <span>Type 'help' for a list of avaliable commands</span>
             <ul>
               {output.map((text, index) => {
                 const time = text.time
@@ -72,6 +72,28 @@ function Display({
                 return <li key={index}>{text.output + time}</li>;
               })}
             </ul>
+            <div>
+              <span>Cameron Alvarado - </span>
+              <a href="https://github.com/jonyonson">
+                https://github.com/jonyonson
+              </a>
+              <br />
+              <span>Allison Donnelly - </span>
+              <a href="https://github.com/jonyonson">
+                https://github.com/jonyonson
+              </a>
+              <br />
+              <span>Samir Lilienfeld - </span>
+              <a href="https://github.com/jonyonson">
+                https://github.com/jonyonson
+              </a>
+              <br />
+              <span>Jonathan Taylor - </span>
+              <a href="https://github.com/jonyonson">
+                https://github.com/jonyonson
+              </a>
+              <br />
+            </div>
             <div style={{ display: 'flex' }}>
               <div className="prompt">$ ></div>
               <input
@@ -166,6 +188,10 @@ const StyledDisplay = styled.div`
 
   .terminal-input {
     visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
+  }
+
+  a {
+    color: lightgreen;
   }
 `;
 
