@@ -138,7 +138,10 @@ function Game() {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
-          setOutput((prev) => [...prev, { output: res.data.message }]);
+          setOutput((prev) => [
+            ...prev,
+            { output: `${res.data.message}: ${res.data.item.description}` },
+          ]);
           setPlayerInventory(res.data.inventory);
         }
       })
