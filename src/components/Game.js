@@ -14,10 +14,7 @@ function Game() {
   const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
 
-  var audio = new Audio('../music/');
-
   useEffect(() => {
-    audio.play();
     axiosWithAuth()
       .get('api/adv/init/')
       .then((res) => {
