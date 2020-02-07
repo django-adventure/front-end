@@ -42,7 +42,7 @@ function Login() {
     <Fragment>
       <Header />
 
-      <AuthWrapper>
+      <AuthWrapper className="scanlines">
         <h1>Sign In</h1>
         <form onSubmit={handleSubmit}>
           <input
