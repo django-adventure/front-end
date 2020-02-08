@@ -11,9 +11,8 @@ import {
   LineMarkSeries,
 } from 'react-vis';
 
-function Map({ currentX, currentY, rooms, currentRoom }) {
+function Map({ user, rooms, currentRoom }) {
   const [hoverRoom, setHoverRoom] = useState('');
-
   const corners = [
     { x: 12, y: 12 },
     { x: -1, y: 12 },
@@ -21,10 +20,7 @@ function Map({ currentX, currentY, rooms, currentRoom }) {
     { x: -1, y: -1 },
   ];
 
-  const player =
-    currentX !== undefined && currentY !== undefined
-      ? [{ x: currentX, y: currentY }]
-      : null;
+  const player = user ? [{ x: user.coords.x, y: user.coords.y }] : null;
 
   // const roomsArr = rooms
   //   ? rooms.map((room) => ({

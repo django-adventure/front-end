@@ -7,14 +7,14 @@ import LeftPanel from './InfoPanel';
 import Header from './Header';
 
 function Game() {
-  const [user, setUser] = useState('');
-  const [uuid, setUuid] = useState('');
+  const [user, setUser] = useState(null);
+  // const [uuid, setUuid] = useState('');
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [output, setOutput] = useState([]);
-  const [coords, setCoords] = useState({});
+  // const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
-  const [playerInventory, setPlayerInventory] = useState([]);
+  // const [playerInventory, setPlayerInventory] = useState([]);
   const [isTextCleared, setIsTextCleared] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
 
@@ -35,13 +35,14 @@ function Game() {
           inventory,
           room_items,
         } = res.data;
-        setUuid(uuid);
-        setUser(name);
+        // setUuid(uuid);
+        console.log('INIT', res.data);
+        setUser({ name, uuid, coords: { x, y }, inventory });
         setCurrentRoom({ title, description, players, room_items, error_msg });
         setLoading(false);
-        setCoords({ x, y });
+        // setCoords({ x, y });
         setRooms(rooms);
-        setPlayerInventory(inventory);
+        // setPlayerInventory(inventory);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -122,7 +123,7 @@ function Game() {
     } else if (cmd === 'scan') {
       if (args.length === 2) {
         const targetPlayer = args[1];
-        if (targetPlayer !== user) {
+        if (targetPlayer !== user.name) {
           scan(targetPlayer);
         } else {
           setOutput((prev) => [...prev, { output: "You can't scan yourself" }]);
@@ -134,7 +135,7 @@ function Game() {
       if (args.length === 4 && args[2].toLowerCase() === 'from') {
         const item = args[1].toLowerCase();
         const targetPlayer = args[3];
-        if (targetPlayer !== user) {
+        if (targetPlayer !== user.name) {
           steal(item, targetPlayer);
         } else {
           setOutput((prev) => [
@@ -160,12 +161,14 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/move/', { direction })
       .then((res) => {
+        console.log('MOVE', res.data);
         const { title, description, players, room_items, error_msg } = res.data;
         setCurrentRoom({ title, description, players, room_items, error_msg });
 
         // checks if  x and y coords have been updated
         if (res.data.x !== undefined && res.data.y !== undefined) {
-          setCoords({ x: res.data.x, y: res.data.y });
+          // setCoords({ x: res.data.x, y: res.data.y });
+          setUser({ ...user, coords: { x: res.data.x, y: res.data.y } });
         }
         // add the error message to the display output
         error_msg.length &&
@@ -191,7 +194,8 @@ function Game() {
             ...prev,
             { output: `${res.data.message}: ${res.data.item.description}` },
           ]);
-          setPlayerInventory(res.data.inventory);
+          setUser({ ...user, inventory: res.data.inventory });
+          // setPlayerInventory(res.data.inventory);
           const { room_items } = res.data;
           setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
         }
@@ -208,7 +212,8 @@ function Game() {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
           setOutput((prev) => [...prev, { output: res.data.message }]);
-          setPlayerInventory(res.data.inventory);
+          // setPlayerInventory(res.data.inventory);
+          setUser({ ...user, inventory: res.data.inventory });
           const { room_items } = res.data;
           setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
         }
@@ -235,8 +240,8 @@ function Game() {
   };
 
   const inventory = () => {
-    if (playerInventory.length !== 0) {
-      let itemList = playerInventory
+    if (user && user.inventory.length !== 0) {
+      let itemList = user.inventory
         .map((item) => {
           return `${item.name} x ${item.count}`;
         })
@@ -283,7 +288,8 @@ function Game() {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
-          setPlayerInventory(res.data.inventory);
+          // setPlayerInventory(res.data.inventory);
+          setUser({ ...user, inventory: res.data.inventory });
           setOutput((prev) => [
             ...prev,
             { output: `You stole ${player}'s ${item}!` },
@@ -297,7 +303,8 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/inventory')
       .then((res) => {
-        setPlayerInventory(res.data.inventory);
+        // setPlayerInventory(res.data.inventory);
+        setUser({ ...user, inventory: res.data.inventory });
       })
       .catch((err) => console.log(err));
   };
@@ -316,7 +323,9 @@ function Game() {
     }
     setOutput((prev) => [...prev, { output: data.message, time: Date.now() }]);
   };
-
+  console.log('user', user);
+  user && console.log('typeof', typeof user.inventory);
+  user && console.log(Array.isArray(user.inventory));
   return loading ? null : (
     <GameWrapper>
       <div
@@ -335,8 +344,9 @@ function Game() {
         >
           <Header />
           <Map
-            currentX={coords.x}
-            currentY={coords.y}
+            // currentX={coords.x}
+            // currentY={coords.y}
+            user={user}
             rooms={rooms}
             currentRoom={currentRoom}
           />
@@ -356,7 +366,7 @@ function Game() {
             isTextCleared={isTextCleared}
             parseText={parseText}
             output={output}
-            uuid={uuid}
+            user={user}
             messageEventHandler={messageEventHandler}
             showCredits={showCredits}
             setShowCredits={setShowCredits}

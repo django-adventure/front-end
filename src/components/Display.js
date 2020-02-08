@@ -8,7 +8,7 @@ import DevCredits from './DevCredits';
 function Display({
   parseText,
   output,
-  uuid,
+  user,
   messageEventHandler,
   isTextCleared,
   showCredits,
@@ -35,7 +35,7 @@ function Display({
       cluster: 'us2',
       forceTLS: true,
     });
-    const channel = pusher.subscribe(`p-channel-${uuid}`);
+    const channel = pusher.subscribe(`p-channel-${user.uuid}`);
     channel.bind('broadcast', messageEventHandler);
     // eslint-disable-next-line
   }, []);
