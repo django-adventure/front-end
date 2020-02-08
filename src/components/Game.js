@@ -128,7 +128,14 @@ function Game() {
       if (args.length === 4 && args[2] === 'from') {
         const item = args[1];
         const targetPlayer = args[3];
-        steal(item, targetPlayer);
+        if (targetPlayer !== user) {
+          steal(item, targetPlayer);
+        } else {
+          setOutput((prev) => [
+            ...prev,
+            { output: "You can't steal from yourself" },
+          ]);
+        }
       } else {
         setOutput((prev) => [...prev, { output: stealUsage }]);
       }
