@@ -62,6 +62,8 @@ function Game() {
     let cmd = args[0];
 
     const moveUsage = 'Usage: move < n | s | e | w >';
+    const stealUsage = 'Usage: steal <item> from <player>';
+    const scanUsage = 'Usage: scan <player>';
     const help = [
       { output: 'help -  This output' },
       { output: 'move - Attempts to move in the direction supplied' },
@@ -70,6 +72,8 @@ function Game() {
       { output: 'inventory - Checks your inventory' },
       { output: 'get - Picks up specified item from current room' },
       { output: 'drop - Drops specified item into current room' },
+      { output: 'scan <player> - Reveals inventory of the target player' },
+      { output: 'steal <item> from <player> - Steals item from target player' },
       { output: 'clear - Clears your screen' },
       { output: 'credits - Lists the developers of Digital Wasteland' },
     ];
@@ -109,6 +113,32 @@ function Game() {
       setIsTextCleared(true);
       setOutput([]);
       setShowCredits(true);
+    } else if (cmd === 'scan') {
+      if (args.length === 2) {
+        const targetPlayer = args[1];
+        if (targetPlayer !== user) {
+          scan(targetPlayer);
+        } else {
+          setOutput((prev) => [...prev, { output: "You can't scan yourself" }]);
+        }
+      } else {
+        setOutput((prev) => [...prev, { output: scanUsage }]);
+      }
+    } else if (cmd === 'steal') {
+      if (args.length === 4 && args[2] === 'from') {
+        const item = args[1];
+        const targetPlayer = args[3];
+        if (targetPlayer !== user) {
+          steal(item, targetPlayer);
+        } else {
+          setOutput((prev) => [
+            ...prev,
+            { output: "You can't steal from yourself" },
+          ]);
+        }
+      } else {
+        setOutput((prev) => [...prev, { output: stealUsage }]);
+      }
     } else {
       setOutput((prev) => [...prev, { output: `No such command '${cmd}'` }]);
     }
@@ -148,7 +178,6 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/get/', { item: item })
       .then((res) => {
-        console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
@@ -185,7 +214,6 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/look/')
       .then((res) => {
-        console.log(res.data);
         if (res.data.room_items.length !== 0) {
           let str = 'Items in this zone: ';
           let arr = res.data.room_items.map((item) => {
@@ -204,7 +232,7 @@ function Game() {
     if (playerInventory.length !== 0) {
       let itemList = playerInventory
         .map((item) => {
-          return `${item.name} x${item.count}`;
+          return `${item.name} x ${item.count}`;
         })
         .join(', ');
       setOutput((prev) => [
@@ -216,6 +244,58 @@ function Game() {
     }
   };
 
+  const scan = (player) => {
+    axiosWithAuth()
+      .post('api/adv/scan/', { player: player })
+      .then((res) => {
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else if (res.data.items.length === 0) {
+          setOutput((prev) => [
+            ...prev,
+            { output: `${player} is not carrying anything.` },
+          ]);
+        } else {
+          let itemList = res.data.items
+            .map((item) => {
+              return `${item.name} x ${item.count}`;
+            })
+            .join(', ');
+          setOutput((prev) => [
+            ...prev,
+            { output: `${player} is carrying: ${itemList}` },
+          ]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const steal = (item, player) => {
+    axiosWithAuth()
+      .post('api/adv/steal', { item: item, player: player })
+      .then((res) => {
+        if (res.data.error_msg.length) {
+          setOutput((prev) => [...prev, { output: res.data.error_msg }]);
+        } else {
+          setPlayerInventory(res.data.inventory);
+          setOutput((prev) => [
+            ...prev,
+            { output: `You stole ${player}'s ${item}!` },
+          ]);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const updateInventory = () => {
+    axiosWithAuth()
+      .get('api/adv/inventory')
+      .then((res) => {
+        setPlayerInventory(res.data.inventory);
+      })
+      .catch((err) => console.log(err));
+  };
+
   const messageEventHandler = (data) => {
     // if message is a result of a player leaving or engering a room...
     if (
@@ -224,6 +304,9 @@ function Game() {
     ) {
       // rerun the request to get the current players in the room
       updatePlayers();
+    } else if (data.message.includes('stole your')) {
+      // someone stole from the user, refetch their inventory
+      updateInventory();
     }
     setOutput((prev) => [...prev, { output: data.message, time: Date.now() }]);
   };
