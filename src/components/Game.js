@@ -58,8 +58,8 @@ function Game() {
 
   const parseText = (text) => {
     setOutput((prev) => [...prev, { output: `>>> ${text}` }]);
-    let args = text.toLowerCase().split(' ');
-    let cmd = args[0];
+    let args = text.split(' ');
+    let cmd = args[0].toLowerCase();
 
     const moveUsage = 'Usage: move < n | s | e | w >';
     const stealUsage = 'Usage: steal <item> from <player>';
@@ -80,7 +80,7 @@ function Game() {
 
     if (cmd === 'move') {
       if (args.length === 2) {
-        const direction = args[1];
+        const direction = args[1].toLowerCase();
         const valid = ['n', 's', 'e', 'w', 'north', 'south', 'east', 'west'];
         if (valid.includes(direction)) {
           move(direction[0]);
@@ -97,10 +97,16 @@ function Game() {
       const text = args.slice(1).join(' ');
       say(text);
     } else if (cmd === 'get') {
-      const item = args.slice(1).join(' ');
+      const item = args
+        .slice(1)
+        .join(' ')
+        .toLowerCase();
       get(item);
     } else if (cmd === 'drop') {
-      const item = args.slice(1).join(' ');
+      const item = args
+        .slice(1)
+        .join(' ')
+        .toLowerCase();
       drop(item);
     } else if (cmd === 'look') {
       look();
@@ -125,8 +131,8 @@ function Game() {
         setOutput((prev) => [...prev, { output: scanUsage }]);
       }
     } else if (cmd === 'steal') {
-      if (args.length === 4 && args[2] === 'from') {
-        const item = args[1];
+      if (args.length === 4 && args[2].toLowerCase() === 'from') {
+        const item = args[1].toLowerCase();
         const targetPlayer = args[3];
         if (targetPlayer !== user) {
           steal(item, targetPlayer);
