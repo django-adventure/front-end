@@ -178,7 +178,6 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/get/', { item: item })
       .then((res) => {
-        console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
@@ -215,7 +214,6 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/look/')
       .then((res) => {
-        console.log(res.data);
         if (res.data.room_items.length !== 0) {
           let str = 'Items in this zone: ';
           let arr = res.data.room_items.map((item) => {
@@ -250,7 +248,6 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/scan/', { player: player })
       .then((res) => {
-        console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else if (res.data.items.length === 0) {
@@ -277,7 +274,6 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/steal', { item: item, player: player })
       .then((res) => {
-        console.log(res);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
@@ -295,7 +291,6 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/inventory')
       .then((res) => {
-        console.log(res);
         setPlayerInventory(res.data.inventory);
       })
       .catch((err) => console.log(err));
