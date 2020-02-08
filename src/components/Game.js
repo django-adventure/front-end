@@ -72,6 +72,8 @@ function Game() {
       { output: 'inventory - Checks your inventory' },
       { output: 'get - Picks up specified item from current room' },
       { output: 'drop - Drops specified item into current room' },
+      { output: 'scan <player> - Reveals inventory of the target player' },
+      { output: 'steal <item> from <player> - Steals item from target player' },
       { output: 'clear - Clears your screen' },
       { output: 'credits - Lists the developers of Digital Wasteland' },
     ];
