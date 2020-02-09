@@ -3,18 +3,15 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import styled from 'styled-components';
 import Display from './Display';
 import Map from './Map';
-import LeftPanel from './InfoPanel';
+import ControlPanel from './ControlPanel';
 import Header from './Header';
 
 function Game() {
-  const [user, setUser] = useState('');
-  const [uuid, setUuid] = useState('');
+  const [user, setUser] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [output, setOutput] = useState([]);
-  const [coords, setCoords] = useState({});
   const [rooms, setRooms] = useState([]);
-  const [playerInventory, setPlayerInventory] = useState([]);
   const [isTextCleared, setIsTextCleared] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
 
@@ -24,34 +21,31 @@ function Game() {
       .then((res) => {
         const {
           name,
+          uuid,
+          x,
+          y,
+          inventory,
           title,
           description,
           players,
           error_msg,
-          uuid,
           rooms,
-          x,
-          y,
-          inventory,
           room_items,
         } = res.data;
-        setUuid(uuid);
-        setUser(name);
+        setUser({ name, uuid, inventory, coords: { x, y } });
         setCurrentRoom({ title, description, players, room_items, error_msg });
         setLoading(false);
-        setCoords({ x, y });
         setRooms(rooms);
-        setPlayerInventory(inventory);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const updatePlayers = () => {
+  const updateRoom = () => {
     axiosWithAuth()
-      .get('api/adv/players/')
+      .get('api/adv/room/')
       .then((res) => {
-        const { players } = res.data;
-        setCurrentRoom((prev) => ({ ...currentRoom, players }));
+        const { players, room_items } = res.data;
+        setCurrentRoom((prev) => ({ ...prev, players, room_items }));
       })
       .catch((err) => console.log(err));
   };
@@ -122,7 +116,7 @@ function Game() {
     } else if (cmd === 'scan') {
       if (args.length === 2) {
         const targetPlayer = args[1];
-        if (targetPlayer !== user) {
+        if (targetPlayer !== user.name) {
           scan(targetPlayer);
         } else {
           setOutput((prev) => [...prev, { output: "You can't scan yourself" }]);
@@ -134,7 +128,7 @@ function Game() {
       if (args.length === 4 && args[2].toLowerCase() === 'from') {
         const item = args[1].toLowerCase();
         const targetPlayer = args[3];
-        if (targetPlayer !== user) {
+        if (targetPlayer !== user.name) {
           steal(item, targetPlayer);
         } else {
           setOutput((prev) => [
@@ -150,9 +144,9 @@ function Game() {
     }
   };
 
-  const say = (text) => {
+  const say = (message) => {
     axiosWithAuth()
-      .post('api/adv/say/', { message: text })
+      .post('api/adv/say/', { message })
       .catch((err) => console.log(err));
   };
 
@@ -164,36 +158,36 @@ function Game() {
         setCurrentRoom({ title, description, players, room_items, error_msg });
 
         // checks if  x and y coords have been updated
-        if (res.data.x !== undefined && res.data.y !== undefined) {
-          setCoords({ x: res.data.x, y: res.data.y });
+        const { x, y } = res.data;
+        if (x !== undefined && y !== undefined) {
+          setUser((prev) => ({ ...prev, coords: { x, y } }));
         }
-        // add the error message to the display output
-        error_msg.length &&
-          setOutput((prev) => [...prev, { output: error_msg }]);
 
-        // add the sucess message to the display output
-        const dirs = { n: 'north', s: 'south', e: 'east', w: 'west' };
-        const successMsg = `You walked ${dirs[direction]}`;
-        !error_msg.length &&
-          setOutput((prev) => [...prev, { output: successMsg }]);
+        if (error_msg.length > 0) {
+          setOutput((prev) => [...prev, { output: error_msg }]);
+        } else {
+          const dirs = { n: 'north', s: 'south', e: 'east', w: 'west' };
+          const output = `You walked ${dirs[direction]}`;
+          setOutput((prev) => [...prev, { output }]);
+        }
       })
       .catch((err) => console.log(err));
   };
 
   const get = (item) => {
     axiosWithAuth()
-      .post('api/adv/get/', { item: item })
+      .post('api/adv/get/', { item })
       .then((res) => {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
+          const { room_items, inventory, message, item } = res.data;
           setOutput((prev) => [
             ...prev,
-            { output: `${res.data.message}: ${res.data.item.description}` },
+            { output: `${message}: ${item.description}` },
           ]);
-          setPlayerInventory(res.data.inventory);
-          const { room_items } = res.data;
-          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
+          setUser((prev) => ({ ...prev, inventory }));
+          setCurrentRoom((prev) => ({ ...prev, room_items }));
         }
       })
       .catch((err) => console.log(err));
@@ -203,14 +197,14 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/drop/', { item: item })
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
+          const { room_items, inventory } = res.data;
+          setUser((prev) => ({ ...prev, inventory }));
+          setCurrentRoom((prev) => ({ ...prev, room_items }));
           setOutput((prev) => [...prev, { output: res.data.message }]);
-          setPlayerInventory(res.data.inventory);
-          const { room_items } = res.data;
-          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
         }
       })
       .catch((err) => console.log(err));
@@ -235,8 +229,8 @@ function Game() {
   };
 
   const inventory = () => {
-    if (playerInventory.length !== 0) {
-      let itemList = playerInventory
+    if (user && user.inventory.length !== 0) {
+      let itemList = user.inventory
         .map((item) => {
           return `${item.name} x ${item.count}`;
         })
@@ -278,12 +272,12 @@ function Game() {
 
   const steal = (item, player) => {
     axiosWithAuth()
-      .post('api/adv/steal', { item: item, player: player })
+      .post('api/adv/steal', { item, player })
       .then((res) => {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
-          setPlayerInventory(res.data.inventory);
+          setUser((prev) => ({ ...prev, inventory: res.data.inventory }));
           setOutput((prev) => [
             ...prev,
             { output: `You stole ${player}'s ${item}!` },
@@ -297,66 +291,42 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/inventory')
       .then((res) => {
-        setPlayerInventory(res.data.inventory);
+        setUser((prev) => ({ ...prev, inventory: res.data.inventory }));
       })
       .catch((err) => console.log(err));
   };
 
   const messageEventHandler = (data) => {
-    // if message is a result of a player leaving or engering a room...
-    if (
-      data.message.includes('has walked') ||
-      data.message.includes('has entered')
-    ) {
-      // rerun the request to get the current players in the room
-      updatePlayers();
-    } else if (data.message.includes('stole your')) {
-      // someone stole from the user, refetch their inventory
-      updateInventory();
+    if (data.update) {
+      if (data.update === 'room') {
+        updateRoom();
+      } else if (data.update === 'inventory') {
+        updateInventory();
+      }
     }
-    setOutput((prev) => [...prev, { output: data.message, time: Date.now() }]);
+
+    if (data.message) {
+      setOutput((prev) => [
+        ...prev,
+        { output: data.message, time: Date.now() },
+      ]);
+    }
   };
 
   return loading ? null : (
     <GameWrapper>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          paddingTop: 10,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
+      <div className="wrapper">
+        <div className="flex-left">
           <Header />
-          <Map
-            currentX={coords.x}
-            currentY={coords.y}
-            rooms={rooms}
-            currentRoom={currentRoom}
-          />
+          <Map user={user} rooms={rooms} currentRoom={currentRoom} />
         </div>
-        <div
-          style={{
-            paddingTop: 35,
-            width: '100%',
-            marginLeft: '50px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <LeftPanel currentRoom={currentRoom} user={user} move={move} />
+        <div className="flex-right">
+          <ControlPanel currentRoom={currentRoom} user={user} move={move} />
           <Display
             isTextCleared={isTextCleared}
             parseText={parseText}
             output={output}
-            uuid={uuid}
+            user={user}
             messageEventHandler={messageEventHandler}
             showCredits={showCredits}
             setShowCredits={setShowCredits}
@@ -375,4 +345,25 @@ const GameWrapper = styled.div`
   min-width: 1300px;
   width: 100%;
   max-width: 1500px;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10;
+  }
+
+  .flex-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .flex-right {
+    padding-top: 35px;
+    width: 100%;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
