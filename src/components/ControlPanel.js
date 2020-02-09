@@ -3,7 +3,7 @@ import Navigation from './Navigation';
 import RoomInfo from './RoomInfo';
 import styled from 'styled-components';
 
-const LeftPanel = ({ currentRoom, user, move }) => {
+const ControlPanel = ({ currentRoom, user, move }) => {
   return (
     <StyledDiv>
       <RoomInfo currentRoom={currentRoom} user={user} />
@@ -19,4 +19,4 @@ const StyledDiv = styled.div`
   margin-bottom: 30px;
 `;
 
-export default LeftPanel;
+export default ControlPanel;

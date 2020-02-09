@@ -3,7 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import styled from 'styled-components';
 import Display from './Display';
 import Map from './Map';
-import ControlPanel from './InfoPanel';
+import ControlPanel from './ControlPanel';
 import Header from './Header';
 
 function Game() {
