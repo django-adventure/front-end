@@ -3,7 +3,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 import styled from 'styled-components';
 import Display from './Display';
 import Map from './Map';
-import LeftPanel from './InfoPanel';
+import ControlPanel from './InfoPanel';
 import Header from './Header';
 
 function Game() {
@@ -21,19 +21,18 @@ function Game() {
       .then((res) => {
         const {
           name,
+          uuid,
+          x,
+          y,
+          inventory,
           title,
           description,
           players,
           error_msg,
-          uuid,
           rooms,
-          x,
-          y,
-          inventory,
           room_items,
         } = res.data;
-
-        setUser({ name, uuid, coords: { x, y }, inventory });
+        setUser({ name, uuid, inventory, coords: { x, y } });
         setCurrentRoom({ title, description, players, room_items, error_msg });
         setLoading(false);
         setRooms(rooms);
@@ -41,12 +40,12 @@ function Game() {
       .catch((err) => console.log(err));
   }, []);
 
-  const updatePlayers = () => {
+  const updateRoom = () => {
     axiosWithAuth()
-      .get('api/adv/players/')
+      .get('api/adv/room/')
       .then((res) => {
-        const { players } = res.data;
-        setCurrentRoom((prev) => ({ ...currentRoom, players }));
+        const { players, room_items } = res.data;
+        setCurrentRoom((prev) => ({ ...prev, players, room_items }));
       })
       .catch((err) => console.log(err));
   };
@@ -145,9 +144,9 @@ function Game() {
     }
   };
 
-  const say = (text) => {
+  const say = (message) => {
     axiosWithAuth()
-      .post('api/adv/say/', { message: text })
+      .post('api/adv/say/', { message })
       .catch((err) => console.log(err));
   };
 
@@ -155,41 +154,40 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/move/', { direction })
       .then((res) => {
-        console.log('MOVE', res.data);
         const { title, description, players, room_items, error_msg } = res.data;
         setCurrentRoom({ title, description, players, room_items, error_msg });
 
         // checks if  x and y coords have been updated
-        if (res.data.x !== undefined && res.data.y !== undefined) {
-          setUser({ ...user, coords: { x: res.data.x, y: res.data.y } });
+        const { x, y } = res.data;
+        if (x !== undefined && y !== undefined) {
+          setUser((prev) => ({ ...prev, coords: { x, y } }));
         }
-        // add the error message to the display output
-        error_msg.length &&
-          setOutput((prev) => [...prev, { output: error_msg }]);
 
-        // add the sucess message to the display output
-        const dirs = { n: 'north', s: 'south', e: 'east', w: 'west' };
-        const successMsg = `You walked ${dirs[direction]}`;
-        !error_msg.length &&
-          setOutput((prev) => [...prev, { output: successMsg }]);
+        if (error_msg.length > 0) {
+          setOutput((prev) => [...prev, { output: error_msg }]);
+        } else {
+          const dirs = { n: 'north', s: 'south', e: 'east', w: 'west' };
+          const output = `You walked ${dirs[direction]}`;
+          setOutput((prev) => [...prev, { output }]);
+        }
       })
       .catch((err) => console.log(err));
   };
 
   const get = (item) => {
     axiosWithAuth()
-      .post('api/adv/get/', { item: item })
+      .post('api/adv/get/', { item })
       .then((res) => {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
+          const { room_items, inventory, message, item } = res.data;
           setOutput((prev) => [
             ...prev,
-            { output: `${res.data.message}: ${res.data.item.description}` },
+            { output: `${message}: ${item.description}` },
           ]);
-          const { room_items, inventory } = res.data;
-          setUser({ ...user, inventory });
-          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
+          setUser((prev) => ({ ...prev, inventory }));
+          setCurrentRoom((prev) => ({ ...prev, room_items }));
         }
       })
       .catch((err) => console.log(err));
@@ -199,13 +197,14 @@ function Game() {
     axiosWithAuth()
       .post('api/adv/drop/', { item: item })
       .then((res) => {
+        console.log(res.data);
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
-          setOutput((prev) => [...prev, { output: res.data.message }]);
           const { room_items, inventory } = res.data;
-          setUser({ ...user, inventory });
-          setCurrentRoom((prev) => ({ ...currentRoom, room_items }));
+          setUser((prev) => ({ ...prev, inventory }));
+          setCurrentRoom((prev) => ({ ...prev, room_items }));
+          setOutput((prev) => [...prev, { output: res.data.message }]);
         }
       })
       .catch((err) => console.log(err));
@@ -278,7 +277,7 @@ function Game() {
         if (res.data.error_msg.length) {
           setOutput((prev) => [...prev, { output: res.data.error_msg }]);
         } else {
-          setUser({ ...user, inventory: res.data.inventory });
+          setUser((prev) => ({ ...prev, inventory: res.data.inventory }));
           setOutput((prev) => [
             ...prev,
             { output: `You stole ${player}'s ${item}!` },
@@ -292,56 +291,37 @@ function Game() {
     axiosWithAuth()
       .get('api/adv/inventory')
       .then((res) => {
-        setUser({ ...user, inventory: res.data.inventory });
+        setUser((prev) => ({ ...prev, inventory: res.data.inventory }));
       })
       .catch((err) => console.log(err));
   };
 
   const messageEventHandler = (data) => {
-    // if message is a result of a player leaving or engering a room...
-    if (
-      data.message.includes('has walked') ||
-      data.message.includes('has entered')
-    ) {
-      // rerun the request to get the current players in the room
-      updatePlayers();
-    } else if (data.message.includes('stole your')) {
-      // someone stole from the user, refetch their inventory
-      updateInventory();
+    if (data.update) {
+      if (data.update === 'room') {
+        updateRoom();
+      } else if (data.update === 'inventory') {
+        updateInventory();
+      }
     }
-    setOutput((prev) => [...prev, { output: data.message, time: Date.now() }]);
+
+    if (data.message) {
+      setOutput((prev) => [
+        ...prev,
+        { output: data.message, time: Date.now() },
+      ]);
+    }
   };
 
   return loading ? null : (
     <GameWrapper>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          paddingTop: 10,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}
-        >
+      <div className="wrapper">
+        <div className="flex-left">
           <Header />
           <Map user={user} rooms={rooms} currentRoom={currentRoom} />
         </div>
-        <div
-          style={{
-            paddingTop: 35,
-            width: '100%',
-            marginLeft: '50px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <LeftPanel currentRoom={currentRoom} user={user} move={move} />
+        <div className="flex-right">
+          <ControlPanel currentRoom={currentRoom} user={user} move={move} />
           <Display
             isTextCleared={isTextCleared}
             parseText={parseText}
@@ -365,4 +345,25 @@ const GameWrapper = styled.div`
   min-width: 1300px;
   width: 100%;
   max-width: 1500px;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10;
+  }
+
+  .flex-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .flex-right {
+    padding-top: 35px;
+    width: 100%;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;

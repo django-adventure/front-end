@@ -30,7 +30,7 @@ function Display({
     inputEl.current.focus();
 
     // Enable pusher logging - don't include this in production
-    // Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
     const pusher = new Pusher('e8856c38e8fdac4de7c5', {
       cluster: 'us2',
       forceTLS: true,
