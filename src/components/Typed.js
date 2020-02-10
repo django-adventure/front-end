@@ -7,7 +7,7 @@ class TypedComponent extends React.Component {
     const { strings } = this.props;
     const options = {
       strings: strings,
-      typeSpeed: 40,
+      typeSpeed: 25,
       showCursor: false,
       onComplete: () => this.props.onComplete(),
     };
