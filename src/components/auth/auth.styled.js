@@ -51,11 +51,8 @@ const AuthWrapper = styled.div`
 
     input {
       margin-bottom: 1.75rem;
-      /* font-size: 16px; */
       padding: 10px;
       border: 1px solid #ccc;
-      outline: none;
-      /* border-radius: 1px; */
       font-size: 22px;
       background: #ccc;
       font-family: inherit;
@@ -77,6 +74,11 @@ const AuthWrapper = styled.div`
       background-color: #ff9210;
       font-family: inherit;
       color: white;
+
+      &:hover {
+        background-color: white;
+        color: #ff9210;
+      }
     }
 
     .error {

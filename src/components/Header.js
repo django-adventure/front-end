@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Header() {
   const history = useHistory();
+  const pathname = useLocation().pathname;
 
   const handleLogout = () => {
     window.localStorage.removeItem('token');
@@ -20,8 +21,12 @@ function Header() {
           </button>
         ) : (
           <Fragment>
-            <StyledLink to="/login">LOGIN</StyledLink>
-            <StyledLink to="/register">REGISTER</StyledLink>
+            {pathname !== '/login' && (
+              <StyledLink to="/login">LOGIN</StyledLink>
+            )}
+            {pathname !== '/register' && (
+              <StyledLink to="/register">REGISTER</StyledLink>
+            )}
           </Fragment>
         )}
       </nav>
@@ -43,10 +48,12 @@ const StyledHeader = styled.header`
   button {
     color: inherit;
   }
+
   h1 {
     color: inherit;
     font-size: calc(24px + 2vmin);
     margin: 0;
+    /* color: #ff9210; */
   }
 
   .logout {
@@ -61,8 +68,15 @@ const StyledHeader = styled.header`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+  /* color: #ff9210; */
+  color: white;
   font-size: calc(10px + 2vmin);
+
   &:not(:first-child) {
     margin-left: 25px;
+  }
+
+  &:hover {
+    color: #ff9210;
   }
 `;
