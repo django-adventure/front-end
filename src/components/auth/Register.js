@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import AuthWrapper from './auth.styled';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { BeatLoader } from 'react-spinners';
 import Header from '../Header';
 
@@ -102,6 +102,9 @@ function Register() {
             ))}
           {error.network && <span className="error">{error.network}</span>}
         </form>
+        <div className="bottom-text">
+          Already have an account? <Link to="/login">Login</Link>
+        </div>
       </AuthWrapper>
     </Fragment>
   );

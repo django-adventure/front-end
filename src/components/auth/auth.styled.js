@@ -36,6 +36,15 @@ const AuthWrapper = styled.div`
     font-size: 32px;
   }
 
+  .bottom-text {
+    text-align: center;
+
+    a {
+      font-size: 19px;
+      color: #00cc33;
+    }
+  }
+
   form {
     display: flex;
     flex-direction: column;

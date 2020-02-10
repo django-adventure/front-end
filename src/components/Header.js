@@ -61,7 +61,7 @@ const StyledHeader = styled.header`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
-  font-size: calc(16px + 2vmin);
+  font-size: calc(10px + 2vmin);
   &:not(:first-child) {
     margin-left: 25px;
   }
