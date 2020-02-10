@@ -12,6 +12,7 @@ import {
 } from 'react-vis';
 
 function Map({ user, rooms, currentRoom }) {
+  const player = user ? [{ x: user.coords.x, y: user.coords.y }] : null;
   const [hoverRoom, setHoverRoom] = useState('');
   const corners = [
     { x: 12, y: 12 },
@@ -19,8 +20,6 @@ function Map({ user, rooms, currentRoom }) {
     { x: 12, y: -1 },
     { x: -1, y: -1 },
   ];
-
-  const player = user ? [{ x: user.coords.x, y: user.coords.y }] : null;
 
   // const roomsArr = rooms
   //   ? rooms.map((room) => ({

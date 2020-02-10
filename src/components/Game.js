@@ -61,11 +61,14 @@ function Game() {
     const help = [
       { output: 'help -  This output' },
       { output: 'move - Attempts to move in the direction supplied' },
-      { output: 'say - Broadcasts a message to any players in current room' },
+      {
+        output:
+          'say <message> - Broadcasts a message to any players in current room',
+      },
       { output: 'look - Checks the room for items' },
       { output: 'inventory - Checks your inventory' },
-      { output: 'get - Picks up specified item from current room' },
-      { output: 'drop - Drops specified item into current room' },
+      { output: 'get <item> - Picks up specified item from current room' },
+      { output: 'drop <item> - Drops specified item into current room' },
       { output: 'scan <player> - Reveals inventory of the target player' },
       { output: 'steal <item> from <player> - Steals item from target player' },
       { output: 'clear - Clears your screen' },
