@@ -14,6 +14,15 @@ function Game() {
   const [rooms, setRooms] = useState([]);
   const [isTextCleared, setIsTextCleared] = useState(false);
   const [showCredits, setShowCredits] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    // show loading indicator if the page hasn't loaaded
+    // after 400 ms (Heroku sleeping)
+    setTimeout(() => {
+      setShowLoader(true);
+    }, 400);
+  }, []);
 
   useEffect(() => {
     axiosWithAuth()
@@ -35,6 +44,7 @@ function Game() {
         setUser({ name, uuid, inventory, coords: { x, y } });
         setCurrentRoom({ title, description, players, room_items, error_msg });
         setLoading(false);
+        setShowLoader(false);
         setRooms(rooms);
       })
       .catch((err) => console.log(err));
@@ -316,7 +326,15 @@ function Game() {
     }
   };
 
-  return loading ? null : (
+  return loading ? (
+    <GameWrapper>
+      {showLoader ? (
+        <LoadingWrapper>
+          <h1>Loading...</h1>
+        </LoadingWrapper>
+      ) : null}
+    </GameWrapper>
+  ) : (
     <GameWrapper>
       <div className="wrapper">
         <div className="flex-left">
@@ -369,4 +387,12 @@ const GameWrapper = styled.div`
     flex-direction: column;
     align-items: center;
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: 'VT323', monospace;
+  color: #18ff62;
+  font-size: 22px;
 `;
