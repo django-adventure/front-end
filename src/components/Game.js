@@ -395,4 +395,5 @@ const LoadingWrapper = styled.div`
   font-family: 'VT323', monospace;
   color: #18ff62;
   font-size: 22px;
+  margin-top: 20%;
 `;
